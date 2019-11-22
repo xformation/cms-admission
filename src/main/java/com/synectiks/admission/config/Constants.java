@@ -1,5 +1,7 @@
 package com.synectiks.admission.config;
 
+import java.util.List;
+
 /**
  * Application constants.
  */
@@ -22,18 +24,51 @@ public interface Constants {
 	String OS_MAC = "mac";
 	String OS_SOLARIS = "solaris";
 	
-	enum EnquiryStatus{
-      	RECEIVED, FOLLOWUP, ACCEPTED_FOR_ADMISSION, DECLINED, CONVERTED_TO_ADMISSION
+	String STATUS_RECEIVED = "RECEIVED";
+	String STATUS_FOLLOWUP = "FOLLOWUP";
+	String STATUS_ACCEPTED_FOR_ADMISSION = "ACCEPTED_FOR_ADMISSION";
+	String STATUS_DECLINED = "DECLINED";
+	String STATUS_CONVERTED_TO_ADMISSION = "CONVERTED_TO_ADMISSION";
+	
+	public static List<String> ENQUIRY_STATUS_LIST = initAdmissionEnquiryStatusList();
+    public static List<String> initAdmissionEnquiryStatusList(){
+    	ENQUIRY_STATUS_LIST.add(STATUS_RECEIVED);
+    	ENQUIRY_STATUS_LIST.add(STATUS_FOLLOWUP);
+    	ENQUIRY_STATUS_LIST.add(STATUS_ACCEPTED_FOR_ADMISSION);
+    	ENQUIRY_STATUS_LIST.add(STATUS_DECLINED);
+    	ENQUIRY_STATUS_LIST.add(STATUS_CONVERTED_TO_ADMISSION);
+    	return ENQUIRY_STATUS_LIST;
+    }
+    
+	String STATUS_INPROCESS = "INPROCESS";
+	String STATUS_PARKED = "PARKED";
+	String STATUS_ADMISSION_GRANTED = "ADMISSION_GRANTED";
+	
+	public static List<String> ADMISSION_STATUS_LIST = initAdmissionStatusList();
+    public static List<String> initAdmissionStatusList(){
+    	ADMISSION_STATUS_LIST.add(STATUS_RECEIVED);
+    	ADMISSION_STATUS_LIST.add(STATUS_INPROCESS);
+    	ADMISSION_STATUS_LIST.add(STATUS_PARKED);
+    	ADMISSION_STATUS_LIST.add(STATUS_DECLINED);
+    	ADMISSION_STATUS_LIST.add(STATUS_ADMISSION_GRANTED);
+    	return ADMISSION_STATUS_LIST;
     }
 	
-    enum AdmissionApplicationStatus{
-        RECEIVED, INPROCESS, DECLINED, PARKED, ADMISSION_GRANTED
+    String MODE_INPERSON = "INPERSON";
+    String MODE_TELEPHONE = "TELEPHONE";
+    String MODE_EMAIL = "EMAIL";
+    String MODE_ONLINE = "ONLINE";
+    String MODE_APPLICATION_LETTER = "APPLICATION_LETTER";
+    
+    public static List<String> MODE_OF_ENQUIRY_LIST = initModeOfEnquiryStatusList();
+    public static List<String> initModeOfEnquiryStatusList(){
+    	MODE_OF_ENQUIRY_LIST.add(MODE_INPERSON);
+    	MODE_OF_ENQUIRY_LIST.add(MODE_TELEPHONE);
+    	MODE_OF_ENQUIRY_LIST.add(MODE_EMAIL);
+    	MODE_OF_ENQUIRY_LIST.add(MODE_ONLINE);
+    	MODE_OF_ENQUIRY_LIST.add(MODE_APPLICATION_LETTER);
+    	return MODE_OF_ENQUIRY_LIST;
     }
-
-    enum ModeOfEnquiry{
-       INPERSON, TELEPHONE, EMAIL, ONLINE, APPLICATION_LETTER
-    }
-
     
 
 }
