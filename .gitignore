@@ -4,6 +4,12 @@
 /target/classes/static/**
 /src/test/javascript/coverage/
 
+
+######################
+# Jhipster
+######################
+/.jhipster/*
+
 ######################
 # Node
 ######################
