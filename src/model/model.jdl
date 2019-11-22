@@ -1,0 +1,51 @@
+
+entity AdmissionEnquiry {
+    studentName String 
+    studentMiddleName String
+    studentLastName String
+	cellPhoneNo String
+	landLinePhoneNo String
+	emailId String
+    dateOfBirth LocalDate
+    gender String
+    highestQualification String 
+    modeOfEnquiry String
+    enquiryDate LocalDate
+    comments String maxlength(5000)    
+    branchId Long
+	departmentId Long
+	courseId Long
+	semesterId Long
+	batchId Long
+	stateId Long
+	cityId Long
+	academicYearId Long
+	enquiryStatus String
+	createdBy String
+	createdOn LocalDate
+	updatedBy String
+	updatedOn LocalDate
+}
+
+entity AdmissionApplication{
+    sourceOfApplication String
+    studentId Long
+    applicationDate LocalDate
+    completionDate LocalDate
+    admissionNo Long
+    admissionDate LocalDate
+    comments String
+    applicationStatus String
+    branchId Long
+    createdBy String
+	createdOn LocalDate
+	updatedBy String
+	updatedOn LocalDate
+}
+
+relationship ManyToOne {
+	AdmissionApplication{admissionEnquiry} to AdmissionEnquiry
+}
+
+dto * with mapstruct
+service all with serviceImpl

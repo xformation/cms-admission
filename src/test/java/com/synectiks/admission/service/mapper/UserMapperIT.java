@@ -1,27 +1,26 @@
 package com.synectiks.admission.service.mapper;
 
 
-import com.synectiks.admission.AdmissionApp;
-import com.synectiks.admission.domain.User;
-import com.synectiks.admission.service.dto.UserDTO;
-import org.apache.commons.lang3.RandomStringUtils;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.kafka.test.context.EmbeddedKafka;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import com.synectiks.admission.AdmissionApp;
+import com.synectiks.admission.domain.User;
+import com.synectiks.admission.service.dto.UserDTO;
 
 /**
  * Integration tests for {@link UserMapper}.
  */
-@EmbeddedKafka
 @SpringBootTest(classes = AdmissionApp.class)
 public class UserMapperIT {
 

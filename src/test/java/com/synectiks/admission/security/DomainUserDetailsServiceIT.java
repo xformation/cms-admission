@@ -1,29 +1,28 @@
 package com.synectiks.admission.security;
 
-import com.synectiks.admission.AdmissionApp;
-import com.synectiks.admission.domain.User;
-import com.synectiks.admission.repository.UserRepository;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+
+import java.util.Locale;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.kafka.test.context.EmbeddedKafka;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Locale;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import com.synectiks.admission.AdmissionApp;
+import com.synectiks.admission.domain.User;
+import com.synectiks.admission.repository.UserRepository;
 
 /**
  * Integrations tests for {@link DomainUserDetailsService}.
  */
-@EmbeddedKafka
+
 @SpringBootTest(classes = AdmissionApp.class)
 @Transactional
 public class DomainUserDetailsServiceIT {

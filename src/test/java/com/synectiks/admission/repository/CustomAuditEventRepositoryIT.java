@@ -1,34 +1,35 @@
 package com.synectiks.admission.repository;
 
-import com.synectiks.admission.AdmissionApp;
-import com.synectiks.admission.config.Constants;
-import com.synectiks.admission.config.audit.AuditEventConverter;
-import com.synectiks.admission.domain.PersistentAuditEvent;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.actuate.audit.AuditEvent;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.kafka.test.context.EmbeddedKafka;
-import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.mock.web.MockHttpSession;
-import org.springframework.security.web.authentication.WebAuthenticationDetails;
-import org.springframework.transaction.annotation.Transactional;
+import static com.synectiks.admission.repository.CustomAuditEventRepository.EVENT_DATA_COLUMN_MAX_LENGTH;
+import static org.assertj.core.api.Assertions.assertThat;
 
-import javax.servlet.http.HttpSession;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static com.synectiks.admission.repository.CustomAuditEventRepository.EVENT_DATA_COLUMN_MAX_LENGTH;
+import javax.servlet.http.HttpSession;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.actuate.audit.AuditEvent;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.mock.web.MockHttpSession;
+import org.springframework.security.web.authentication.WebAuthenticationDetails;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.synectiks.admission.AdmissionApp;
+import com.synectiks.admission.config.Constants;
+import com.synectiks.admission.config.audit.AuditEventConverter;
+import com.synectiks.admission.domain.PersistentAuditEvent;
 
 /**
  * Integration tests for {@link CustomAuditEventRepository}.
  */
-@EmbeddedKafka
+
 @SpringBootTest(classes = AdmissionApp.class)
 @Transactional
 public class CustomAuditEventRepositoryIT {

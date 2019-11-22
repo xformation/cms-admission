@@ -1,12 +1,16 @@
 package com.synectiks.admission.service;
 
-import com.synectiks.admission.AdmissionApp;
-import com.synectiks.admission.config.Constants;
-import com.synectiks.admission.domain.User;
-import com.synectiks.admission.repository.search.UserSearchRepository;
-import com.synectiks.admission.repository.UserRepository;
-import com.synectiks.admission.service.dto.UserDTO;
-import com.synectiks.admission.service.util.RandomUtil;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.List;
+import java.util.Optional;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,25 +22,20 @@ import org.springframework.data.auditing.AuditingHandler;
 import org.springframework.data.auditing.DateTimeProvider;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.kafka.test.context.EmbeddedKafka;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
-import java.time.LocalDateTime;
-import java.util.Optional;
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import com.synectiks.admission.AdmissionApp;
+import com.synectiks.admission.config.Constants;
+import com.synectiks.admission.domain.User;
+import com.synectiks.admission.repository.UserRepository;
+import com.synectiks.admission.repository.search.UserSearchRepository;
+import com.synectiks.admission.service.dto.UserDTO;
+import com.synectiks.admission.service.util.RandomUtil;
 
 /**
  * Integration tests for {@link UserService}.
  */
-@EmbeddedKafka
+
 @SpringBootTest(classes = AdmissionApp.class)
 @Transactional
 public class UserServiceIT {

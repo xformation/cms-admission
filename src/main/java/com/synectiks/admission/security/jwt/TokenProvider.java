@@ -1,34 +1,33 @@
 package com.synectiks.admission.security.jwt;
 
+import io.github.jhipster.config.JHipsterProperties;
+
 import java.nio.charset.StandardCharsets;
-import java.security.Key;
 import java.util.*;
 import java.util.stream.Collectors;
+import javax.annotation.PostConstruct;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 
-import io.github.jhipster.config.JHipsterProperties;
 import io.jsonwebtoken.*;
-import io.jsonwebtoken.io.Decoders;
-import io.jsonwebtoken.security.Keys;
 
 @Component
-public class TokenProvider implements InitializingBean {
+public class TokenProvider {
 
     private final Logger log = LoggerFactory.getLogger(TokenProvider.class);
 
     private static final String AUTHORITIES_KEY = "auth";
 
-    private Key key;
+    private final Base64.Encoder encoder = Base64.getEncoder();
+
+    private String secretKey;
 
     private long tokenValidityInMilliseconds;
 
@@ -40,19 +39,11 @@ public class TokenProvider implements InitializingBean {
         this.jHipsterProperties = jHipsterProperties;
     }
 
-    @Override
-    public void afterPropertiesSet() throws Exception {
-        byte[] keyBytes;
-        String secret = jHipsterProperties.getSecurity().getAuthentication().getJwt().getSecret();
-        if (!StringUtils.isEmpty(secret)) {
-            log.warn("Warning: the JWT key used is not Base64-encoded. " +
-                "We recommend using the `jhipster.security.authentication.jwt.base64-secret` key for optimum security.");
-            keyBytes = secret.getBytes(StandardCharsets.UTF_8);
-        } else {
-            log.debug("Using a Base64-encoded JWT secret key");
-            keyBytes = Decoders.BASE64.decode(jHipsterProperties.getSecurity().getAuthentication().getJwt().getBase64Secret());
-        }
-        this.key = Keys.hmacShaKeyFor(keyBytes);
+    @PostConstruct
+    public void init() {
+        this.secretKey = encoder.encodeToString(jHipsterProperties.getSecurity().getAuthentication().getJwt()
+            .getSecret().getBytes(StandardCharsets.UTF_8));
+
         this.tokenValidityInMilliseconds =
             1000 * jHipsterProperties.getSecurity().getAuthentication().getJwt().getTokenValidityInSeconds();
         this.tokenValidityInMillisecondsForRememberMe =
@@ -76,14 +67,14 @@ public class TokenProvider implements InitializingBean {
         return Jwts.builder()
             .setSubject(authentication.getName())
             .claim(AUTHORITIES_KEY, authorities)
-            .signWith(key, SignatureAlgorithm.HS512)
+            .signWith(SignatureAlgorithm.HS512, secretKey)
             .setExpiration(validity)
             .compact();
     }
 
     public Authentication getAuthentication(String token) {
         Claims claims = Jwts.parser()
-            .setSigningKey(key)
+            .setSigningKey(secretKey)
             .parseClaimsJws(token)
             .getBody();
 
@@ -99,11 +90,14 @@ public class TokenProvider implements InitializingBean {
 
     public boolean validateToken(String authToken) {
         try {
-            Jwts.parser().setSigningKey(key).parseClaimsJws(authToken);
+            Jwts.parser().setSigningKey(secretKey).parseClaimsJws(authToken);
             return true;
-        } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
+        } catch (SignatureException e) {
             log.info("Invalid JWT signature.");
             log.trace("Invalid JWT signature trace: {}", e);
+        } catch (MalformedJwtException e) {
+            log.info("Invalid JWT token.");
+            log.trace("Invalid JWT token trace: {}", e);
         } catch (ExpiredJwtException e) {
             log.info("Expired JWT token.");
             log.trace("Expired JWT token trace: {}", e);

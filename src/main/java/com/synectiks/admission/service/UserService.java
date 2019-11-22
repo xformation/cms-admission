@@ -1,20 +1,16 @@
 package com.synectiks.admission.service;
 
-import com.synectiks.admission.config.Constants;
-import com.synectiks.admission.domain.Authority;
-import com.synectiks.admission.domain.User;
-import com.synectiks.admission.repository.AuthorityRepository;
-import com.synectiks.admission.repository.UserRepository;
-import com.synectiks.admission.repository.search.UserSearchRepository;
-import com.synectiks.admission.security.AuthoritiesConstants;
-import com.synectiks.admission.security.SecurityUtils;
-import com.synectiks.admission.service.dto.UserDTO;
-import com.synectiks.admission.service.util.RandomUtil;
-import com.synectiks.admission.web.rest.errors.*;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.cache.CacheManager;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -22,10 +18,20 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
-import java.util.*;
-import java.util.stream.Collectors;
+import com.synectiks.admission.config.Constants;
+import com.synectiks.admission.domain.Authority;
+import com.synectiks.admission.domain.User;
+import com.synectiks.admission.repository.AuthorityRepository;
+import com.synectiks.admission.repository.PersistentTokenRepository;
+import com.synectiks.admission.repository.UserRepository;
+import com.synectiks.admission.repository.search.UserSearchRepository;
+import com.synectiks.admission.security.AuthoritiesConstants;
+import com.synectiks.admission.security.SecurityUtils;
+import com.synectiks.admission.service.dto.UserDTO;
+import com.synectiks.admission.service.util.RandomUtil;
+import com.synectiks.admission.web.rest.errors.EmailAlreadyUsedException;
+import com.synectiks.admission.web.rest.errors.InvalidPasswordException;
+import com.synectiks.admission.web.rest.errors.LoginAlreadyUsedException;
 
 /**
  * Service class for managing users.
@@ -42,16 +48,16 @@ public class UserService {
 
     private final UserSearchRepository userSearchRepository;
 
+    private final PersistentTokenRepository persistentTokenRepository;
+
     private final AuthorityRepository authorityRepository;
 
-    private final CacheManager cacheManager;
-
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, UserSearchRepository userSearchRepository, AuthorityRepository authorityRepository, CacheManager cacheManager) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, UserSearchRepository userSearchRepository, PersistentTokenRepository persistentTokenRepository, AuthorityRepository authorityRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.userSearchRepository = userSearchRepository;
+        this.persistentTokenRepository = persistentTokenRepository;
         this.authorityRepository = authorityRepository;
-        this.cacheManager = cacheManager;
     }
 
     public Optional<User> activateRegistration(String key) {
@@ -62,7 +68,6 @@ public class UserService {
                 user.setActivated(true);
                 user.setActivationKey(null);
                 userSearchRepository.save(user);
-                this.clearUserCaches(user);
                 log.debug("Activated user: {}", user);
                 return user;
             });
@@ -76,7 +81,6 @@ public class UserService {
                 user.setPassword(passwordEncoder.encode(newPassword));
                 user.setResetKey(null);
                 user.setResetDate(null);
-                this.clearUserCaches(user);
                 return user;
             });
     }
@@ -87,7 +91,6 @@ public class UserService {
             .map(user -> {
                 user.setResetKey(RandomUtil.generateResetKey());
                 user.setResetDate(Instant.now());
-                this.clearUserCaches(user);
                 return user;
             });
     }
@@ -124,7 +127,6 @@ public class UserService {
         newUser.setAuthorities(authorities);
         userRepository.save(newUser);
         userSearchRepository.save(newUser);
-        this.clearUserCaches(newUser);
         log.debug("Created Information for User: {}", newUser);
         return newUser;
     }
@@ -135,7 +137,6 @@ public class UserService {
         }
         userRepository.delete(existingUser);
         userRepository.flush();
-        this.clearUserCaches(existingUser);
         return true;
     }
 
@@ -166,7 +167,6 @@ public class UserService {
         }
         userRepository.save(user);
         userSearchRepository.save(user);
-        this.clearUserCaches(user);
         log.debug("Created Information for User: {}", user);
         return user;
     }
@@ -190,7 +190,6 @@ public class UserService {
                 user.setLangKey(langKey);
                 user.setImageUrl(imageUrl);
                 userSearchRepository.save(user);
-                this.clearUserCaches(user);
                 log.debug("Changed Information for User: {}", user);
             });
     }
@@ -207,7 +206,6 @@ public class UserService {
             .filter(Optional::isPresent)
             .map(Optional::get)
             .map(user -> {
-                this.clearUserCaches(user);
                 user.setLogin(userDTO.getLogin().toLowerCase());
                 user.setFirstName(userDTO.getFirstName());
                 user.setLastName(userDTO.getLastName());
@@ -223,7 +221,6 @@ public class UserService {
                     .map(Optional::get)
                     .forEach(managedAuthorities::add);
                 userSearchRepository.save(user);
-                this.clearUserCaches(user);
                 log.debug("Changed Information for User: {}", user);
                 return user;
             })
@@ -234,7 +231,6 @@ public class UserService {
         userRepository.findOneByLogin(login).ifPresent(user -> {
             userRepository.delete(user);
             userSearchRepository.delete(user);
-            this.clearUserCaches(user);
             log.debug("Deleted User: {}", user);
         });
     }
@@ -249,7 +245,6 @@ public class UserService {
                 }
                 String encryptedPassword = passwordEncoder.encode(newPassword);
                 user.setPassword(encryptedPassword);
-                this.clearUserCaches(user);
                 log.debug("Changed password for User: {}", user);
             });
     }
@@ -275,6 +270,23 @@ public class UserService {
     }
 
     /**
+     * Persistent Token are used for providing automatic authentication, they should be automatically deleted after
+     * 30 days.
+     * <p>
+     * This is scheduled to get fired everyday, at midnight.
+     */
+    @Scheduled(cron = "0 0 0 * * ?")
+    public void removeOldPersistentTokens() {
+        LocalDate now = LocalDate.now();
+        persistentTokenRepository.findByTokenDateBefore(now.minusMonths(1)).forEach(token -> {
+            log.debug("Deleting token {}", token.getSeries());
+            User user = token.getUser();
+            user.getPersistentTokens().remove(token);
+            persistentTokenRepository.delete(token);
+        });
+    }
+
+    /**
      * Not activated users should be automatically deleted after 3 days.
      * <p>
      * This is scheduled to get fired everyday, at 01:00 (am).
@@ -287,7 +299,6 @@ public class UserService {
                 log.debug("Deleting not activated user {}", user.getLogin());
                 userRepository.delete(user);
                 userSearchRepository.delete(user);
-                this.clearUserCaches(user);
             });
     }
 
@@ -299,9 +310,4 @@ public class UserService {
         return authorityRepository.findAll().stream().map(Authority::getName).collect(Collectors.toList());
     }
 
-
-    private void clearUserCaches(User user) {
-        Objects.requireNonNull(cacheManager.getCache(UserRepository.USERS_BY_LOGIN_CACHE)).evict(user.getLogin());
-        Objects.requireNonNull(cacheManager.getCache(UserRepository.USERS_BY_EMAIL_CACHE)).evict(user.getEmail());
-    }
 }

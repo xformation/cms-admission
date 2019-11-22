@@ -1,11 +1,15 @@
 package com.synectiks.admission.web.rest;
 
-import com.synectiks.admission.AdmissionApp;
-import com.synectiks.admission.config.audit.AuditEventConverter;
-import com.synectiks.admission.domain.PersistentAuditEvent;
-import com.synectiks.admission.repository.PersistenceAuditEventRepository;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.hamcrest.Matchers.hasItem;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.synectiks.admission.service.AuditEventService;
+import java.time.Instant;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;
@@ -16,22 +20,20 @@ import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.format.support.FormattingConversionService;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.kafka.test.context.EmbeddedKafka;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.Instant;
-
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.hamcrest.Matchers.hasItem;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import com.synectiks.admission.AdmissionApp;
+import com.synectiks.admission.config.audit.AuditEventConverter;
+import com.synectiks.admission.domain.PersistentAuditEvent;
+import com.synectiks.admission.repository.PersistenceAuditEventRepository;
+import com.synectiks.admission.service.AuditEventService;
 
 /**
  * Integration tests for the {@link AuditResource} REST controller.
  */
-@EmbeddedKafka
+
 @SpringBootTest(classes = AdmissionApp.class)
 @Transactional
 public class AuditResourceIT {
