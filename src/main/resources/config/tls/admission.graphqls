@@ -11,6 +11,8 @@ type Mutation {
 type AdmissionEnquiryPayload {
 	cmsAdmissionEnquiryVo: CmsAdmissionEnquiryVo
 }
+  admissionEnquiry(id: Long!): AdmissionEnquiry!
+  admissionEnquiries:[AdmissionEnquiry!]!
 
 input AdmissionEnquiryInput {
 	    id: Long
