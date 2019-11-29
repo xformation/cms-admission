@@ -27,9 +27,6 @@ public class Mutation implements GraphQLMutationResolver {
     	return new AdmissionEnquiryPayload(vo);
     }
 
-    public Long getTotalAdmissions( long branchId) {
-        return admissionEnquiryProcessor.getTotalAdmissions( branchId);
-    }
 
 
 }
