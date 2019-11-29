@@ -1,5 +1,5 @@
 # ===================================================================
-# 
+#
 # More information on profiles: https://www.jhipster.tech/profiles/
 # More information on configuration properties: https://www.jhipster.tech/common-application-properties/
 # ===================================================================
@@ -46,7 +46,7 @@ spring:
             hibernate.cache.use_second_level_cache: false
             hibernate.cache.use_query_cache: false
             hibernate.generate_statistics: false
-            
+
     data:
         elasticsearch:
             cluster-name:
@@ -69,7 +69,7 @@ spring:
         cache: false
     servlet.multipart.enabled: true
     servlet.multipart.max-file-size: 1000MB
-    servlet.multipart.max-request-size: 300MB    
+    servlet.multipart.max-request-size: 300MB
 # ===================================================================
 # To enable SSL, generate a certificate using:
 # keytool -genkey -alias preferences -storetype PKCS12 -keyalg RSA -keysize 2048 -keystore keystore.p12 -validity 3650
@@ -90,7 +90,7 @@ spring:
 #server:
 #    port: 9092
 server:
-     port: ${SERVER_PORT}
+     port: 8080
 # ===================================================================
 # JHipster specific properties
 #
