@@ -1,9 +1,8 @@
 package com.synectiks.admission.repository;
 
-import java.time.Instant;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.synectiks.admission.config.Constants;
+import com.synectiks.admission.config.audit.AuditEventConverter;
+import com.synectiks.admission.domain.PersistentAuditEvent;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,12 +12,11 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.synectiks.admission.config.Constants;
-import com.synectiks.admission.config.audit.AuditEventConverter;
-import com.synectiks.admission.domain.PersistentAuditEvent;
+import java.time.Instant;
+import java.util.*;
 
 /**
- * An implementation of Spring Boot's {@link AuditEventRepository}.
+ * An implementation of Spring Boot's AuditEventRepository.
  */
 @Repository
 public class CustomAuditEventRepository implements AuditEventRepository {

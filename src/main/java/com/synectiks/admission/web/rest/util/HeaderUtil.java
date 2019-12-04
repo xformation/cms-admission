@@ -23,13 +23,6 @@ public final class HeaderUtil {
         return headers;
     }
 
-    public static HttpHeaders createAlert(String applicationName, String message, String param) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("X-" + APPLICATION_NAME + "-alert", message);
-        headers.add("X-" + APPLICATION_NAME + "-params", param);
-        return headers;
-    }
-    
     public static HttpHeaders createEntityCreationAlert(String entityName, String param) {
         return createAlert("A new " + entityName + " is created with identifier " + param, param);
     }
@@ -42,26 +35,7 @@ public final class HeaderUtil {
         return createAlert("A " + entityName + " is deleted with identifier " + param, param);
     }
 
-    public static HttpHeaders createEntityCreationAlert(String applicationName, boolean isTranslation, String entityName, String param) {
-        return createAlert("A new " + entityName + " is created with identifier " + param, param);
-    }
-
-    public static HttpHeaders createEntityUpdateAlert(String applicationName, boolean isTranslation,String entityName, String param) {
-        return createAlert("A " + entityName + " is updated with identifier " + param, param);
-    }
-
-    public static HttpHeaders createEntityDeletionAlert(String applicationName, boolean isTranslation, String entityName, String param) {
-        return createAlert("A " + entityName + " is deleted with identifier " + param, param);
-    }
-    
     public static HttpHeaders createFailureAlert(String entityName, String errorKey, String defaultMessage) {
-        log.error("Entity processing failed, {}", defaultMessage);
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("X-" + APPLICATION_NAME + "-error", defaultMessage);
-        headers.add("X-" + APPLICATION_NAME + "-params", entityName);
-        return headers;
-    }
-    public static HttpHeaders createFailureAlert(String applicationName, boolean isTranslation, String entityName, String errorKey, String defaultMessage) {
         log.error("Entity processing failed, {}", defaultMessage);
         HttpHeaders headers = new HttpHeaders();
         headers.add("X-" + APPLICATION_NAME + "-error", defaultMessage);

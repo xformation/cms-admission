@@ -1,11 +1,10 @@
 package com.synectiks.admission.repository;
 
 import com.synectiks.admission.domain.Authority;
-
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.synectiks.admission.utils.JPASearchRepository;
 
 /**
- * Spring Data JPA repository for the {@link Authority} entity.
+ * Spring Data JPA repository for the Authority entity.
  */
-public interface AuthorityRepository extends JpaRepository<Authority, String> {
+public interface AuthorityRepository extends JPASearchRepository<Authority, String> {
 }

@@ -1,15 +1,15 @@
 package com.synectiks.admission.repository;
 
-import com.synectiks.admission.domain.AdmissionEnquiry;
-import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 
+import com.synectiks.admission.domain.AdmissionEnquiry;
+import com.synectiks.admission.utils.JPASearchRepository;
 
 /**
- * Spring Data  repository for the AdmissionEnquiry entity.
+ * Spring Data repository for the AdmissionEnquiry entity.
  */
-@SuppressWarnings("unused")
 @Repository
-public interface AdmissionEnquiryRepository extends JpaRepository<AdmissionEnquiry, Long> {
+public interface AdmissionEnquiryRepository
+		extends JPASearchRepository<AdmissionEnquiry, Long> {
 
 }

@@ -1,5 +1,4 @@
 package com.synectiks.admission.web.rest;
-
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -9,7 +8,6 @@ import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,7 +27,7 @@ import com.synectiks.admission.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 
 /**
- * REST controller for managing {@link com.synectiks.admission.domain.AdmissionEnquiry}.
+ * REST controller for managing AdmissionEnquiry.
  */
 @RestController
 @RequestMapping("/api")
@@ -39,8 +37,6 @@ public class AdmissionEnquiryResource {
 
     private static final String ENTITY_NAME = "admissionEnquiry";
 
-    private String applicationName;
-
     private final AdmissionEnquiryService admissionEnquiryService;
 
     public AdmissionEnquiryResource(AdmissionEnquiryService admissionEnquiryService) {
@@ -48,11 +44,11 @@ public class AdmissionEnquiryResource {
     }
 
     /**
-     * {@code POST  /admission-enquiries} : Create a new admissionEnquiry.
+     * POST  /admission-enquiries : Create a new admissionEnquiry.
      *
-     * @param admissionEnquiryDTO the admissionEnquiryDTO to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new admissionEnquiryDTO, or with status {@code 400 (Bad Request)} if the admissionEnquiry has already an ID.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
+     * @param admissionEnquiryDTO the admissionEnquiryDTO to create
+     * @return the ResponseEntity with status 201 (Created) and with body the new admissionEnquiryDTO, or with status 400 (Bad Request) if the admissionEnquiry has already an ID
+     * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/admission-enquiries")
     public ResponseEntity<AdmissionEnquiryDTO> createAdmissionEnquiry(@Valid @RequestBody AdmissionEnquiryDTO admissionEnquiryDTO) throws URISyntaxException {
@@ -62,18 +58,18 @@ public class AdmissionEnquiryResource {
         }
         AdmissionEnquiryDTO result = admissionEnquiryService.save(admissionEnquiryDTO);
         return ResponseEntity.created(new URI("/api/admission-enquiries/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
+            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
     }
 
     /**
-     * {@code PUT  /admission-enquiries} : Updates an existing admissionEnquiry.
+     * PUT  /admission-enquiries : Updates an existing admissionEnquiry.
      *
-     * @param admissionEnquiryDTO the admissionEnquiryDTO to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated admissionEnquiryDTO,
-     * or with status {@code 400 (Bad Request)} if the admissionEnquiryDTO is not valid,
-     * or with status {@code 500 (Internal Server Error)} if the admissionEnquiryDTO couldn't be updated.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
+     * @param admissionEnquiryDTO the admissionEnquiryDTO to update
+     * @return the ResponseEntity with status 200 (OK) and with body the updated admissionEnquiryDTO,
+     * or with status 400 (Bad Request) if the admissionEnquiryDTO is not valid,
+     * or with status 500 (Internal Server Error) if the admissionEnquiryDTO couldn't be updated
+     * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/admission-enquiries")
     public ResponseEntity<AdmissionEnquiryDTO> updateAdmissionEnquiry(@Valid @RequestBody AdmissionEnquiryDTO admissionEnquiryDTO) throws URISyntaxException {
@@ -83,14 +79,14 @@ public class AdmissionEnquiryResource {
         }
         AdmissionEnquiryDTO result = admissionEnquiryService.save(admissionEnquiryDTO);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, admissionEnquiryDTO.getId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, admissionEnquiryDTO.getId().toString()))
             .body(result);
     }
 
     /**
-     * {@code GET  /admission-enquiries} : get all the admissionEnquiries.
+     * GET  /admission-enquiries : get all the admissionEnquiries.
      *
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of admissionEnquiries in body.
+     * @return the ResponseEntity with status 200 (OK) and the list of admissionEnquiries in body
      */
     @GetMapping("/admission-enquiries")
     public List<AdmissionEnquiryDTO> getAllAdmissionEnquiries() {
@@ -99,10 +95,10 @@ public class AdmissionEnquiryResource {
     }
 
     /**
-     * {@code GET  /admission-enquiries/:id} : get the "id" admissionEnquiry.
+     * GET  /admission-enquiries/:id : get the "id" admissionEnquiry.
      *
-     * @param id the id of the admissionEnquiryDTO to retrieve.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the admissionEnquiryDTO, or with status {@code 404 (Not Found)}.
+     * @param id the id of the admissionEnquiryDTO to retrieve
+     * @return the ResponseEntity with status 200 (OK) and with body the admissionEnquiryDTO, or with status 404 (Not Found)
      */
     @GetMapping("/admission-enquiries/{id}")
     public ResponseEntity<AdmissionEnquiryDTO> getAdmissionEnquiry(@PathVariable Long id) {
@@ -112,24 +108,24 @@ public class AdmissionEnquiryResource {
     }
 
     /**
-     * {@code DELETE  /admission-enquiries/:id} : delete the "id" admissionEnquiry.
+     * DELETE  /admission-enquiries/:id : delete the "id" admissionEnquiry.
      *
-     * @param id the id of the admissionEnquiryDTO to delete.
-     * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
+     * @param id the id of the admissionEnquiryDTO to delete
+     * @return the ResponseEntity with status 200 (OK)
      */
     @DeleteMapping("/admission-enquiries/{id}")
     public ResponseEntity<Void> deleteAdmissionEnquiry(@PathVariable Long id) {
         log.debug("REST request to delete AdmissionEnquiry : {}", id);
         admissionEnquiryService.delete(id);
-        return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString())).build();
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
     /**
-     * {@code SEARCH  /_search/admission-enquiries?query=:query} : search for the admissionEnquiry corresponding
+     * SEARCH  /_search/admission-enquiries?query=:query : search for the admissionEnquiry corresponding
      * to the query.
      *
-     * @param query the query of the admissionEnquiry search.
-     * @return the result of the search.
+     * @param query the query of the admissionEnquiry search
+     * @return the result of the search
      */
     @GetMapping("/_search/admission-enquiries")
     public List<AdmissionEnquiryDTO> searchAdmissionEnquiries(@RequestParam String query) {

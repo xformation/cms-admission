@@ -1,10 +1,10 @@
 package com.synectiks.admission.repository.search;
 
 import com.synectiks.admission.domain.AdmissionEnquiry;
-import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
+import com.synectiks.admission.utils.JPASearchRepository;
 
 /**
- * Spring Data Elasticsearch repository for the {@link AdmissionEnquiry} entity.
+ * Spring Data Elasticsearch repository for the AdmissionEnquiry entity.
  */
-public interface AdmissionEnquirySearchRepository extends ElasticsearchRepository<AdmissionEnquiry, Long> {
+public interface AdmissionEnquirySearchRepository extends JPASearchRepository<AdmissionEnquiry, Long> {
 }

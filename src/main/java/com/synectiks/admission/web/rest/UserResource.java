@@ -1,7 +1,5 @@
 package com.synectiks.admission.web.rest;
 
-import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
-
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -49,7 +47,7 @@ import io.github.jhipster.web.util.ResponseUtil;
  * REST controller for managing users.
  * <p>
  * This class accesses the User entity, and needs to fetch its collection of authorities.
- * <p>
+ * <p>O
  * For a normal use-case, it would be better to have an eager relationship between User and Authority,
  * and send everything to the client side: there would be no View Model and DTO, a lot less code, and an outer-join
  * which would be good for performance.
@@ -81,14 +79,11 @@ public class UserResource {
 
     private final MailService mailService;
 
-    private final UserSearchRepository userSearchRepository;
-
-    public UserResource(UserService userService, UserRepository userRepository, MailService mailService, UserSearchRepository userSearchRepository) {
+    public UserResource(UserService userService, UserRepository userRepository, MailService mailService) {
 
         this.userService = userService;
         this.userRepository = userRepository;
         this.mailService = mailService;
-        this.userSearchRepository = userSearchRepository;
     }
 
     /**
@@ -214,11 +209,12 @@ public class UserResource {
      * @param query the query to search
      * @return the result of the search
      */
-    @GetMapping("/_search/users/{query}")
-    @Timed
-    public List<User> search(@PathVariable String query) {
-        return StreamSupport
-            .stream(userSearchRepository.search(queryStringQuery(query)).spliterator(), false)
-            .collect(Collectors.toList());
-    }
+	/*
+	 * @GetMapping("/_search/users/{query}")
+	 * 
+	 * @Timed public List<User> search(@PathVariable String query) { return
+	 * StreamSupport
+	 * .stream(userSearchRepository.search(queryStringQuery(query)).spliterator(
+	 * ), false) .collect(Collectors.toList()); }
+	 */
 }

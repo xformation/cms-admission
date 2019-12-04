@@ -43,9 +43,9 @@ public class LoggingAspect {
     /**
      * Pointcut that matches all Spring beans in the application's main packages.
      */
-    @Pointcut("within(com.synectiks.cms.repository..*)"+
-        " || within(com.synectiks.cms.service..*)"+
-        " || within(com.synectiks.cms.web.rest..*)")
+    @Pointcut("within(com.synectiks.admission.repository..*)"+
+        " || within(com.synectiks.admission.service..*)"+
+        " || within(com.synectiks.admission.web.rest..*)")
     public void applicationPackagePointcut() {
         // Method is empty as this is just a Pointcut, the implementations are in the advices.
     }

@@ -1,12 +1,10 @@
 version: '2'
 services:
-  admission-elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:6.4.3
-    # volumes:
-    #     - ~/volumes/jhipster/admission/elasticsearch/:/usr/share/elasticsearch/data/
-    ports:
-      - 9200:9200
-      - 9300:9300
-    environment:
-      - 'ES_JAVA_OPTS=-Xms1024m -Xmx1024m'
-      - 'discovery.type=single-node'
+    cms-elasticsearch:
+        image: elasticsearch:5.6.5
+        # volumes:
+        #     - ~/volumes/jhipster/cms/elasticsearch/:/usr/share/elasticsearch/data/
+        ports:
+            - 9200:9200
+            - 9300:9300
+        command: -Enetwork.host=0.0.0.0 -Ediscovery.type=single-node

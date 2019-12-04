@@ -1,0 +1,3 @@
+id;payment_method;installments;day_desc;payment_day;frequency;college_id;branch_id
+7951;INSTALLMENTS;12;EVERY MONTH;5;MONTHLY;951;1001
+7952;ONETIME;1;ONE TIME PAYMENT;5;;951;1001

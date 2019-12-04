@@ -1,75 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.synectiks.admission</groupId>
-    <artifactId>admission</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <packaging>jar</packaging>
-    <name>Admission</name>
+	<groupId>com.synectiks.admission</groupId>
+	<artifactId>admission</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>war</packaging>
+	<name>admission</name>
 
-    <repositories>
-        <!-- TODO To remove after final JHipster release -->
-        <!-- <repository>
-            <id>oss.sonatype.org-snapshot</id>
-            <url>http://oss.sonatype.org/content/repositories/snapshots</url>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository> -->
-        <!-- jhipster-needle-maven-repository -->
-    </repositories>
+	<repositories>
+		<!-- jhipster-needle-maven-repository -->
+	</repositories>
 
-    <!-- <pluginRepositories>
-        jhipster-needle-maven-plugin-repository
-    </pluginRepositories>
- -->
-    <!-- jhipster-needle-distribution-management -->
+	<properties>
+		<!-- Build properties -->
+		<maven.version>3.0.0</maven.version>
+		<java.version>1.8</java.version>
+		<scala.version>2.12.6</scala.version>
+		<node.version>v8.11.3</node.version>
+		<yarn.version>v1.6.0</yarn.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<project.testresult.directory>${project.build.directory}/test-results</project.testresult.directory>
+		<maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
+		<maven.compiler.source>${java.version}</maven.compiler.source>
+		<maven.compiler.target>${java.version}</maven.compiler.target>
+		<argLine>-Djava.security.egd=file:/dev/./urandom -Xmx256m</argLine>
+		<m2e.apt.activation>jdt_apt</m2e.apt.activation>
+		<run.addResources>false</run.addResources>
+		<!-- These remain empty unless the corresponding profile is active -->
+		<profile.no-liquibase />
+		<profile.swagger />
 
-    <properties>
-        <!-- Build properties -->
-        <maven.version>3.0.0</maven.version>
-        <java.version>1.8</java.version>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <project.testresult.directory>${project.build.directory}/test-results</project.testresult.directory>
-        <maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
-        <maven.compiler.source>${java.version}</maven.compiler.source>
-        <maven.compiler.target>${java.version}</maven.compiler.target>
-        <argLine>-Djava.security.egd=file:/dev/./urandom -Xmx256m</argLine>
-        <m2e.apt.activation>jdt_apt</m2e.apt.activation>
-        <run.addResources>false</run.addResources>
-        <!-- These remain empty unless the corresponding profile is active -->
-        <profile.no-liquibase />
-        <profile.swagger />
-        <!-- <profile.tls /> -->
-
-        <!-- Dependency versions -->
-        <!-- <jhipster-dependencies.version>3.0.3</jhipster-dependencies.version>
-         --><!-- The spring-boot version should match the one managed by https://mvnrepository.com/artifact/io.github.jhipster/jhipster-dependencies/${jhipster-dependencies.version} -->
-        <!-- <spring-boot.version>2.1.6.RELEASE</spring-boot.version>
-         --><!-- The spring framework version should match the one managed by https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-dependencies/${spring-boot.version} -->
-        <!-- <spring.version>5.1.8.RELEASE</spring.version>
-         --><!-- The hibernate version should match the one managed by https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-dependencies/${spring-boot.version} -->
-        <!-- <hibernate.version>5.3.10.Final</hibernate.version>
-         --><!-- The javassist version should match the one managed by https://mvnrepository.com/artifact/org.hibernate/hibernate-core/${hibernate.version} -->
-        <!-- <javassist.version>3.23.1-GA</javassist.version>
-         --><!-- The liquibase version should match the one managed by https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-dependencies/${spring-boot.version} -->
-        <!-- <liquibase.version>3.6.3</liquibase.version>
-         -->
-        <!--  <liquibase-hibernate5.version>3.6</liquibase-hibernate5.version>
-         --><!-- The hibernate version to be used to override default version of liquibase maven plugin -->
-        <!-- <hibernate-core.version>5.3.8.Final</hibernate-core.version>
-        <validation-api.version>2.0.1.Final</validation-api.version>
-        <jaxb-runtime.version>2.3.2</jaxb-runtime.version>
-        <log4j2-mock.version>0.0.1</log4j2-mock.version>
-        <mapstruct.version>1.3.0.Final</mapstruct.version>
-         -->
-        <!-- Dependency versions -->
+		<!-- Dependency versions -->
 		<jhipster-dependencies.version>2.0.14</jhipster-dependencies.version>
 		<!-- The spring-boot version should match the one managed by https://mvnrepository.com/artifact/io.github.jhipster/jhipster-dependencies/${jhipster-dependencies.version} -->
 		<spring-boot.version>2.0.3.RELEASE</spring-boot.version>
@@ -82,34 +47,9 @@
 		<liquibase-hibernate5.version>3.6</liquibase-hibernate5.version>
 		<validation-api.version>2.0.1.Final</validation-api.version>
 		<mapstruct.version>1.2.0.Final</mapstruct.version>
-        
-        
-        <!-- Plugin versions -->
-        <!-- <maven-clean-plugin.version>3.1.0</maven-clean-plugin.version>
-        <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
-        <maven-javadoc-plugin.version>3.1.0</maven-javadoc-plugin.version>
-        <maven-eclipse-plugin.version>2.10</maven-eclipse-plugin.version>
-        We can't go to 3.0.0-M2 as it has a regression. See https://issues.apache.org/jira/browse/MENFORCER-306
-        <maven-enforcer-plugin.version>3.0.0-M1</maven-enforcer-plugin.version>
-        <maven-failsafe-plugin.version>3.0.0-M3</maven-failsafe-plugin.version>
-        <maven-idea-plugin.version>2.2.1</maven-idea-plugin.version>
-        <maven-resources-plugin.version>3.1.0</maven-resources-plugin.version>
-        <maven-surefire-plugin.version>3.0.0-M3</maven-surefire-plugin.version>
-        <maven-war-plugin.version>3.2.3</maven-war-plugin.version>
-        <git-commit-id-plugin.version>2.2.6</git-commit-id-plugin.version>
-        <jacoco-maven-plugin.version>0.8.4</jacoco-maven-plugin.version>
-        <jib-maven-plugin.version>1.3.0</jib-maven-plugin.version>
-        <lifecycle-mapping.version>1.0.0</lifecycle-mapping.version>
-        <properties-maven-plugin.version>1.0.0</properties-maven-plugin.version>
-        <sonar-maven-plugin.version>3.6.0.1398</sonar-maven-plugin.version>
-        <jacoco.reportFolder>${project.build.directory}/jacoco</jacoco.reportFolder>
-        <jacoco.utReportFile>${jacoco.reportFolder}/test.exec</jacoco.utReportFile>
-        <jacoco.itReportFile>${jacoco.reportFolder}/integrationTest.exec</jacoco.itReportFile>
-        <junit.utReportFolder>${project.testresult.directory}/test</junit.utReportFolder>
-        <junit.itReportFolder>${project.testresult.directory}/integrationTest</junit.itReportFolder> -->
-        <!-- jhipster-needle-maven-property -->
-        
-        <maven-clean-plugin.version>3.1.0</maven-clean-plugin.version>
+
+		<!-- Plugin versions -->
+		<maven-clean-plugin.version>3.1.0</maven-clean-plugin.version>
 		<maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
 		<maven-eclipse-plugin.version>2.10</maven-eclipse-plugin.version>
 		<maven-enforcer-plugin.version>3.0.0-M2</maven-enforcer-plugin.version>
@@ -121,24 +61,50 @@
 		<jacoco-maven-plugin.version>0.8.1</jacoco-maven-plugin.version>
 		<scala-maven-plugin.version>3.4.1</scala-maven-plugin.version>
 		<sonar-maven-plugin.version>3.4.0.905</sonar-maven-plugin.version>
-        
-        
-    </properties>
 
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>io.github.jhipster</groupId>
-                <artifactId>jhipster-dependencies</artifactId>
-                <version>${jhipster-dependencies.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <!-- jhipster-needle-maven-add-dependency-management -->
-        </dependencies>
-    </dependencyManagement>
+		<!-- Sonar properties -->
+		<sonar.exclusions>src/main/webapp/content/**/*.*,
+			src/main/webapp/i18n/*.js, target/www/**/*.*</sonar.exclusions>
+		<sonar.issue.ignore.multicriteria>S3437,UndocumentedApi,BoldAndItalicTagsCheck</sonar.issue.ignore.multicriteria>
+		<!-- Rule https://sonarcloud.io/coding_rules?open=Web%3ABoldAndItalicTagsCheck&rule_key=Web%3ABoldAndItalicTagsCheck
+			is ignored. Even if we agree that using the "i" tag is an awful practice,
+			this is what is recommended by http://fontawesome.io/examples/ -->
+		<sonar.issue.ignore.multicriteria.BoldAndItalicTagsCheck.resourceKey>src/main/webapp/app/**/*.*</sonar.issue.ignore.multicriteria.BoldAndItalicTagsCheck.resourceKey>
+		<sonar.issue.ignore.multicriteria.BoldAndItalicTagsCheck.ruleKey>Web:BoldAndItalicTagsCheck</sonar.issue.ignore.multicriteria.BoldAndItalicTagsCheck.ruleKey>
+		<!-- Rule https://sonarcloud.io/coding_rules?open=squid%3AS3437&rule_key=squid%3AS3437
+			is ignored, as a JPA-managed field cannot be transient -->
+		<sonar.issue.ignore.multicriteria.S3437.resourceKey>src/main/java/**/*</sonar.issue.ignore.multicriteria.S3437.resourceKey>
+		<sonar.issue.ignore.multicriteria.S3437.ruleKey>squid:S3437</sonar.issue.ignore.multicriteria.S3437.ruleKey>
+		<!-- Rule https://sonarcloud.io/coding_rules?open=squid%3AUndocumentedApi&rule_key=squid%3AUndocumentedApi
+			is ignored, as we want to follow "clean code" guidelines and classes, methods
+			and arguments names should be self-explanatory -->
+		<sonar.issue.ignore.multicriteria.UndocumentedApi.resourceKey>src/main/java/**/*</sonar.issue.ignore.multicriteria.UndocumentedApi.resourceKey>
+		<sonar.issue.ignore.multicriteria.UndocumentedApi.ruleKey>squid:UndocumentedApi</sonar.issue.ignore.multicriteria.UndocumentedApi.ruleKey>
+		<sonar.jacoco.reportPaths>${project.testresult.directory}/coverage/jacoco/jacoco.exec</sonar.jacoco.reportPaths>
+		<sonar.java.codeCoveragePlugin>jacoco</sonar.java.codeCoveragePlugin>
+		<sonar.testExecutionReportPaths>${project.testresult.directory}/jest/TESTS-results-sonar.xml</sonar.testExecutionReportPaths>
+		<sonar.typescript.lcov.reportPaths>${project.testresult.directory}/lcov.info</sonar.typescript.lcov.reportPaths>
+		<sonar.sources>${project.basedir}/src/main/</sonar.sources>
+		<sonar.surefire.reportsPath>${project.testresult.directory}/surefire-reports</sonar.surefire.reportsPath>
+		<sonar.tests>${project.basedir}/src/test/</sonar.tests>
 
-    <dependencies>
+		<!-- jhipster-needle-maven-property -->
+	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>io.github.jhipster</groupId>
+				<artifactId>jhipster-dependencies</artifactId>
+				<version>${jhipster-dependencies.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<!-- jhipster-needle-maven-add-dependency-management -->
+		</dependencies>
+	</dependencyManagement>
+
+	<dependencies>
 		<dependency>
 			<groupId>io.github.jhipster</groupId>
 			<artifactId>jhipster-framework</artifactId>
@@ -255,7 +221,6 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-jpamodelgen</artifactId>
-			<version>${hibernate.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
@@ -309,16 +274,6 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-elasticsearch</artifactId>
-			<exclusions>
-				<exclusion>
-					<groupId>org.apache.logging.log4j</groupId>
-					<artifactId>*</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>net.java.dev.jna</groupId>
@@ -396,14 +351,12 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
-            <version>5.0.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.influxdb</groupId>
             <artifactId>influxdb-java</artifactId>
-            <version>2.5</version>
-        </dependency>
+            </dependency>
 		<dependency>
 			<groupId>io.cucumber</groupId>
 			<artifactId>cucumber-spring</artifactId>
@@ -475,20 +428,17 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-test</artifactId>
-			<version>2.0.3.RELEASE</version>
 			<scope>test</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.glassfish.jersey.core</groupId>
 			<artifactId>jersey-client</artifactId>
-			<version>2.25.1</version>
-		</dependency>
+			</dependency>
 		<dependency>
 			<groupId>org.glassfish.jersey.media</groupId>
 			<artifactId>jersey-media-json-jackson</artifactId>
-			<version>2.25.1</version>
-		</dependency>
+			</dependency>
 		<dependency>
 			<groupId>org.glassfish.jersey.media</groupId>
 			<artifactId>jersey-media-json-jackson</artifactId>
@@ -509,9 +459,17 @@
 			<artifactId>json</artifactId>
 			<version>20160810</version>
 		</dependency> -->
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpcore</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient-osgi</artifactId>
+		</dependency>
 	</dependencies>
 
-    <build>
+	<build>
 		<defaultGoal>spring-boot:run</defaultGoal>
 		<testResources>
 			<testResource>
@@ -714,7 +672,7 @@
 					<defaultSchemaName></defaultSchemaName>
 					<username>admission</username>
 					<password></password>
-					<referenceUrl>hibernate:spring:com.synectiks.pref.domain?dialect=org.hibernate.dialect.PostgreSQL82Dialect&amp;hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy&amp;hibernate.implicit_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy</referenceUrl>
+					<referenceUrl>hibernate:spring:com.synectiks.admission.domain?dialect=org.hibernate.dialect.PostgreSQL82Dialect&amp;hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy&amp;hibernate.implicit_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy</referenceUrl>
 					<verbose>true</verbose>
 					<logging>debug</logging>
 				</configuration>

@@ -6,22 +6,22 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Service Interface for managing {@link com.synectiks.admission.domain.AdmissionEnquiry}.
+ * Service Interface for managing AdmissionEnquiry.
  */
 public interface AdmissionEnquiryService {
 
     /**
      * Save a admissionEnquiry.
      *
-     * @param admissionEnquiryDTO the entity to save.
-     * @return the persisted entity.
+     * @param admissionEnquiryDTO the entity to save
+     * @return the persisted entity
      */
     AdmissionEnquiryDTO save(AdmissionEnquiryDTO admissionEnquiryDTO);
 
     /**
      * Get all the admissionEnquiries.
      *
-     * @return the list of entities.
+     * @return the list of entities
      */
     List<AdmissionEnquiryDTO> findAll();
 
@@ -29,24 +29,24 @@ public interface AdmissionEnquiryService {
     /**
      * Get the "id" admissionEnquiry.
      *
-     * @param id the id of the entity.
-     * @return the entity.
+     * @param id the id of the entity
+     * @return the entity
      */
     Optional<AdmissionEnquiryDTO> findOne(Long id);
 
     /**
      * Delete the "id" admissionEnquiry.
      *
-     * @param id the id of the entity.
+     * @param id the id of the entity
      */
     void delete(Long id);
 
     /**
      * Search for the admissionEnquiry corresponding to the query.
      *
-     * @param query the query of the search.
+     * @param query the query of the search
      * 
-     * @return the list of entities.
+     * @return the list of entities
      */
     List<AdmissionEnquiryDTO> search(String query);
 }

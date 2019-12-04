@@ -1,0 +1,5 @@
+id;route_name;route_details;route_map_url;no_of_stops;route_frequency
+5951;KONDAPUR;MadhapurToKondapur;url;5;MORNINGPICKUP
+5952;GACHIBOWLI;MadhapurToGachibowli;url;6;MORNINGPICKUP
+5953;JUBLIEEHILLS;MadhapurToJublieehills;url;9;AFTERNOONDROP
+5954;ECIL;MadhapurToEcil;url;4;EVENINGDROP
