@@ -1,20 +1,8 @@
 package com.synectiks.admission.business.service;
 
 
-import com.synectiks.admission.constant.CmsConstants;
-import com.synectiks.admission.domain.*;
-import com.synectiks.admission.domain.enumeration.AdmissionStatusEnum;
-import com.synectiks.admission.domain.enumeration.EnquiryStatus;
-import com.synectiks.admission.repository.AdmissionApplicationRepository;
-import com.synectiks.admission.service.util.CommonUtil;
-import com.synectiks.admission.service.util.DateFormatUtil;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 @Transactional

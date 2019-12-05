@@ -1,9 +1,15 @@
 package com.synectiks.admission.repository;
 
-import com.synectiks.admission.AdmissionApp;
-import com.synectiks.admission.config.Constants;
-import com.synectiks.admission.config.audit.AuditEventConverter;
-import com.synectiks.admission.domain.PersistentAuditEvent;
+import static com.synectiks.admission.repository.CustomAuditEventRepository.EVENT_DATA_COLUMN_MAX_LENGTH;
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.time.Instant;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpSession;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,14 +22,10 @@ import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.servlet.http.HttpSession;
-import java.time.Instant;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static com.synectiks.admission.repository.CustomAuditEventRepository.EVENT_DATA_COLUMN_MAX_LENGTH;
+import com.synectiks.admission.AdmissionApp;
+import com.synectiks.admission.config.audit.AuditEventConverter;
+import com.synectiks.admission.constant.CmsConstants;
+import com.synectiks.admission.domain.PersistentAuditEvent;
 
 /**
  * Test class for the CustomAuditEventRepository class.
@@ -146,7 +148,7 @@ public class CustomAuditEventRepositoryIntTest {
     public void addAuditEventWithAnonymousUser() {
         Map<String, Object> data = new HashMap<>();
         data.put("test-key", "test-value");
-        AuditEvent event = new AuditEvent(Constants.ANONYMOUS_USER, "test-type", data);
+        AuditEvent event = new AuditEvent(CmsConstants.ANONYMOUS_USER, "test-type", data);
         customAuditEventRepository.add(event);
         List<PersistentAuditEvent> persistentAuditEvents = persistenceAuditEventRepository.findAll();
         assertThat(persistentAuditEvents).hasSize(0);
