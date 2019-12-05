@@ -1,4 +1,5 @@
 package com.synectiks.admission.web.rest;
+
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -6,6 +7,7 @@ import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,7 +27,7 @@ import com.synectiks.admission.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 
 /**
- * REST controller for managing AdmissionApplication.
+ * REST controller for managing {@link com.synectiks.admission.domain.AdmissionApplication}.
  */
 @RestController
 @RequestMapping("/api")
@@ -42,11 +44,11 @@ public class AdmissionApplicationResource {
     }
 
     /**
-     * POST  /admission-applications : Create a new admissionApplication.
+     * {@code POST  /admission-applications} : Create a new admissionApplication.
      *
-     * @param admissionApplicationDTO the admissionApplicationDTO to create
-     * @return the ResponseEntity with status 201 (Created) and with body the new admissionApplicationDTO, or with status 400 (Bad Request) if the admissionApplication has already an ID
-     * @throws URISyntaxException if the Location URI syntax is incorrect
+     * @param admissionApplicationDTO the admissionApplicationDTO to create.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new admissionApplicationDTO, or with status {@code 400 (Bad Request)} if the admissionApplication has already an ID.
+     * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/admission-applications")
     public ResponseEntity<AdmissionApplicationDTO> createAdmissionApplication(@RequestBody AdmissionApplicationDTO admissionApplicationDTO) throws URISyntaxException {
@@ -61,13 +63,13 @@ public class AdmissionApplicationResource {
     }
 
     /**
-     * PUT  /admission-applications : Updates an existing admissionApplication.
+     * {@code PUT  /admission-applications} : Updates an existing admissionApplication.
      *
-     * @param admissionApplicationDTO the admissionApplicationDTO to update
-     * @return the ResponseEntity with status 200 (OK) and with body the updated admissionApplicationDTO,
-     * or with status 400 (Bad Request) if the admissionApplicationDTO is not valid,
-     * or with status 500 (Internal Server Error) if the admissionApplicationDTO couldn't be updated
-     * @throws URISyntaxException if the Location URI syntax is incorrect
+     * @param admissionApplicationDTO the admissionApplicationDTO to update.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated admissionApplicationDTO,
+     * or with status {@code 400 (Bad Request)} if the admissionApplicationDTO is not valid,
+     * or with status {@code 500 (Internal Server Error)} if the admissionApplicationDTO couldn't be updated.
+     * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/admission-applications")
     public ResponseEntity<AdmissionApplicationDTO> updateAdmissionApplication(@RequestBody AdmissionApplicationDTO admissionApplicationDTO) throws URISyntaxException {
@@ -82,9 +84,9 @@ public class AdmissionApplicationResource {
     }
 
     /**
-     * GET  /admission-applications : get all the admissionApplications.
+     * {@code GET  /admission-applications} : get all the admissionApplications.
      *
-     * @return the ResponseEntity with status 200 (OK) and the list of admissionApplications in body
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of admissionApplications in body.
      */
     @GetMapping("/admission-applications")
     public List<AdmissionApplicationDTO> getAllAdmissionApplications() {
@@ -93,10 +95,10 @@ public class AdmissionApplicationResource {
     }
 
     /**
-     * GET  /admission-applications/:id : get the "id" admissionApplication.
+     * {@code GET  /admission-applications/:id} : get the "id" admissionApplication.
      *
-     * @param id the id of the admissionApplicationDTO to retrieve
-     * @return the ResponseEntity with status 200 (OK) and with body the admissionApplicationDTO, or with status 404 (Not Found)
+     * @param id the id of the admissionApplicationDTO to retrieve.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the admissionApplicationDTO, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/admission-applications/{id}")
     public ResponseEntity<AdmissionApplicationDTO> getAdmissionApplication(@PathVariable Long id) {
@@ -106,24 +108,24 @@ public class AdmissionApplicationResource {
     }
 
     /**
-     * DELETE  /admission-applications/:id : delete the "id" admissionApplication.
+     * {@code DELETE  /admission-applications/:id} : delete the "id" admissionApplication.
      *
-     * @param id the id of the admissionApplicationDTO to delete
-     * @return the ResponseEntity with status 200 (OK)
+     * @param id the id of the admissionApplicationDTO to delete.
+     * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/admission-applications/{id}")
     public ResponseEntity<Void> deleteAdmissionApplication(@PathVariable Long id) {
         log.debug("REST request to delete AdmissionApplication : {}", id);
         admissionApplicationService.delete(id);
-        return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
+        return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
     /**
-     * SEARCH  /_search/admission-applications?query=:query : search for the admissionApplication corresponding
+     * {@code SEARCH  /_search/admission-applications?query=:query} : search for the admissionApplication corresponding
      * to the query.
      *
-     * @param query the query of the admissionApplication search
-     * @return the result of the search
+     * @param query the query of the admissionApplication search.
+     * @return the result of the search.
      */
     @GetMapping("/_search/admission-applications")
     public List<AdmissionApplicationDTO> searchAdmissionApplications(@RequestParam String query) {

@@ -1,4 +1,0 @@
-id;exam_name;semester;exam_date;start_time;end_time;grade_type;total;passing;actions;groupvalue;countvalue;branch_id;subject_id;department_id;type_of_grading_id;academicyear_id;section_id;batch_id
-1490329;midterm1;SEMESTER1;2019-04-23;7:30:00Am;10:30:00Am;GRADE;100;35;ACTIVE;1;1;11150;1352;1101;7534;1051;1201;1151
-1490356;midterm1;SEMESTER1;2019-05-21;7:30:00Am;10:30:00Am;GRADE;100;35;ACTIVE;2;2;11150;1353;1101;7534;1051;1201;1151
-1490398;midterm1;SEMESTER1;2019-05-17;7:30:00Am;10:30:00Am;GRADE;100;35;ACTIVE;2;3;11150;1354;1101;8795;1051;1201;1151

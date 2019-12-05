@@ -2,10 +2,6 @@ package com.synectiks.admission.service.dto;
 import java.time.LocalDate;
 import java.io.Serializable;
 import java.util.Objects;
-import com.synectiks.admission.domain.enumeration.AdmissionStatusEnum;
-import com.synectiks.admission.domain.enumeration.Gender;
-import com.synectiks.admission.domain.enumeration.CourseEnum;
-import com.synectiks.admission.domain.enumeration.Status;
 
 /**
  * A DTO for the {@link com.synectiks.admission.domain.AdmissionApplication} entity.
@@ -14,68 +10,34 @@ public class AdmissionApplicationDTO implements Serializable {
 
     private Long id;
 
-    private AdmissionStatusEnum admissionStatus;
+    private String sourceOfApplication;
 
-    private String studentName;
+    private Long studentId;
 
-    private String studentMiddleName;
+    private LocalDate applicationDate;
 
-    private String studentLastName;
+    private LocalDate completionDate;
 
-    private String fatherName;
-
-    private String fatherMiddleName;
-
-    private String fatherLastName;
-
-    private String motherName;
-
-    private String motherMiddleName;
-
-    private String motherLastName;
-
-    private String contactNumber;
-
-    private String alternateMobileNumber;
-
-    private LocalDate dateOfBirth;
-
-    private String email;
-
-    private Gender sex;
-
-    private String comments;
-
-    private Integer applicationId;
-
-    private String uploadPhoto;
-
-    private CourseEnum course;
+    private Long admissionNo;
 
     private LocalDate admissionDate;
 
-    private Status status;
+    private String comments;
 
-
-    private Long admissionEnquiryId;
-
-    private Long academicHistoryId;
-
-    private Long documentsId;
+    private String applicationStatus;
 
     private Long branchId;
 
-    private Long batchId;
+    private String createdBy;
 
-    private Long stateId;
+    private LocalDate createdOn;
 
-    private Long cityId;
+    private String updatedBy;
 
-    private Long countryId;
+    private LocalDate updatedOn;
 
-    private Long departmentId;
 
-    private Long academicyearId;
+    private Long admissionEnquiryId;
 
     public Long getId() {
         return id;
@@ -85,156 +47,44 @@ public class AdmissionApplicationDTO implements Serializable {
         this.id = id;
     }
 
-    public AdmissionStatusEnum getAdmissionStatus() {
-        return admissionStatus;
+    public String getSourceOfApplication() {
+        return sourceOfApplication;
     }
 
-    public void setAdmissionStatus(AdmissionStatusEnum admissionStatus) {
-        this.admissionStatus = admissionStatus;
+    public void setSourceOfApplication(String sourceOfApplication) {
+        this.sourceOfApplication = sourceOfApplication;
     }
 
-    public String getStudentName() {
-        return studentName;
+    public Long getStudentId() {
+        return studentId;
     }
 
-    public void setStudentName(String studentName) {
-        this.studentName = studentName;
+    public void setStudentId(Long studentId) {
+        this.studentId = studentId;
     }
 
-    public String getStudentMiddleName() {
-        return studentMiddleName;
+    public LocalDate getApplicationDate() {
+        return applicationDate;
     }
 
-    public void setStudentMiddleName(String studentMiddleName) {
-        this.studentMiddleName = studentMiddleName;
+    public void setApplicationDate(LocalDate applicationDate) {
+        this.applicationDate = applicationDate;
     }
 
-    public String getStudentLastName() {
-        return studentLastName;
+    public LocalDate getCompletionDate() {
+        return completionDate;
     }
 
-    public void setStudentLastName(String studentLastName) {
-        this.studentLastName = studentLastName;
+    public void setCompletionDate(LocalDate completionDate) {
+        this.completionDate = completionDate;
     }
 
-    public String getFatherName() {
-        return fatherName;
+    public Long getAdmissionNo() {
+        return admissionNo;
     }
 
-    public void setFatherName(String fatherName) {
-        this.fatherName = fatherName;
-    }
-
-    public String getFatherMiddleName() {
-        return fatherMiddleName;
-    }
-
-    public void setFatherMiddleName(String fatherMiddleName) {
-        this.fatherMiddleName = fatherMiddleName;
-    }
-
-    public String getFatherLastName() {
-        return fatherLastName;
-    }
-
-    public void setFatherLastName(String fatherLastName) {
-        this.fatherLastName = fatherLastName;
-    }
-
-    public String getMotherName() {
-        return motherName;
-    }
-
-    public void setMotherName(String motherName) {
-        this.motherName = motherName;
-    }
-
-    public String getMotherMiddleName() {
-        return motherMiddleName;
-    }
-
-    public void setMotherMiddleName(String motherMiddleName) {
-        this.motherMiddleName = motherMiddleName;
-    }
-
-    public String getMotherLastName() {
-        return motherLastName;
-    }
-
-    public void setMotherLastName(String motherLastName) {
-        this.motherLastName = motherLastName;
-    }
-
-    public String getContactNumber() {
-        return contactNumber;
-    }
-
-    public void setContactNumber(String contactNumber) {
-        this.contactNumber = contactNumber;
-    }
-
-    public String getAlternateMobileNumber() {
-        return alternateMobileNumber;
-    }
-
-    public void setAlternateMobileNumber(String alternateMobileNumber) {
-        this.alternateMobileNumber = alternateMobileNumber;
-    }
-
-    public LocalDate getDateOfBirth() {
-        return dateOfBirth;
-    }
-
-    public void setDateOfBirth(LocalDate dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public Gender getSex() {
-        return sex;
-    }
-
-    public void setSex(Gender sex) {
-        this.sex = sex;
-    }
-
-    public String getComments() {
-        return comments;
-    }
-
-    public void setComments(String comments) {
-        this.comments = comments;
-    }
-
-    public Integer getApplicationId() {
-        return applicationId;
-    }
-
-    public void setApplicationId(Integer applicationId) {
-        this.applicationId = applicationId;
-    }
-
-    public String getUploadPhoto() {
-        return uploadPhoto;
-    }
-
-    public void setUploadPhoto(String uploadPhoto) {
-        this.uploadPhoto = uploadPhoto;
-    }
-
-    public CourseEnum getCourse() {
-        return course;
-    }
-
-    public void setCourse(CourseEnum course) {
-        this.course = course;
+    public void setAdmissionNo(Long admissionNo) {
+        this.admissionNo = admissionNo;
     }
 
     public LocalDate getAdmissionDate() {
@@ -245,36 +95,20 @@ public class AdmissionApplicationDTO implements Serializable {
         this.admissionDate = admissionDate;
     }
 
-    public Status getStatus() {
-        return status;
+    public String getComments() {
+        return comments;
     }
 
-    public void setStatus(Status status) {
-        this.status = status;
+    public void setComments(String comments) {
+        this.comments = comments;
     }
 
-    public Long getAdmissionEnquiryId() {
-        return admissionEnquiryId;
+    public String getApplicationStatus() {
+        return applicationStatus;
     }
 
-    public void setAdmissionEnquiryId(Long admissionEnquiryId) {
-        this.admissionEnquiryId = admissionEnquiryId;
-    }
-
-    public Long getAcademicHistoryId() {
-        return academicHistoryId;
-    }
-
-    public void setAcademicHistoryId(Long academicHistoryId) {
-        this.academicHistoryId = academicHistoryId;
-    }
-
-    public Long getDocumentsId() {
-        return documentsId;
-    }
-
-    public void setDocumentsId(Long documentsId) {
-        this.documentsId = documentsId;
+    public void setApplicationStatus(String applicationStatus) {
+        this.applicationStatus = applicationStatus;
     }
 
     public Long getBranchId() {
@@ -285,52 +119,44 @@ public class AdmissionApplicationDTO implements Serializable {
         this.branchId = branchId;
     }
 
-    public Long getBatchId() {
-        return batchId;
+    public String getCreatedBy() {
+        return createdBy;
     }
 
-    public void setBatchId(Long batchId) {
-        this.batchId = batchId;
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
     }
 
-    public Long getStateId() {
-        return stateId;
+    public LocalDate getCreatedOn() {
+        return createdOn;
     }
 
-    public void setStateId(Long stateId) {
-        this.stateId = stateId;
+    public void setCreatedOn(LocalDate createdOn) {
+        this.createdOn = createdOn;
     }
 
-    public Long getCityId() {
-        return cityId;
+    public String getUpdatedBy() {
+        return updatedBy;
     }
 
-    public void setCityId(Long cityId) {
-        this.cityId = cityId;
+    public void setUpdatedBy(String updatedBy) {
+        this.updatedBy = updatedBy;
     }
 
-    public Long getCountryId() {
-        return countryId;
+    public LocalDate getUpdatedOn() {
+        return updatedOn;
     }
 
-    public void setCountryId(Long countryId) {
-        this.countryId = countryId;
+    public void setUpdatedOn(LocalDate updatedOn) {
+        this.updatedOn = updatedOn;
     }
 
-    public Long getDepartmentId() {
-        return departmentId;
+    public Long getAdmissionEnquiryId() {
+        return admissionEnquiryId;
     }
 
-    public void setDepartmentId(Long departmentId) {
-        this.departmentId = departmentId;
-    }
-
-    public Long getAcademicyearId() {
-        return academicyearId;
-    }
-
-    public void setAcademicyearId(Long academicYearId) {
-        this.academicyearId = academicYearId;
+    public void setAdmissionEnquiryId(Long admissionEnquiryId) {
+        this.admissionEnquiryId = admissionEnquiryId;
     }
 
     @Override
@@ -358,37 +184,20 @@ public class AdmissionApplicationDTO implements Serializable {
     public String toString() {
         return "AdmissionApplicationDTO{" +
             "id=" + getId() +
-            ", admissionStatus='" + getAdmissionStatus() + "'" +
-            ", studentName='" + getStudentName() + "'" +
-            ", studentMiddleName='" + getStudentMiddleName() + "'" +
-            ", studentLastName='" + getStudentLastName() + "'" +
-            ", fatherName='" + getFatherName() + "'" +
-            ", fatherMiddleName='" + getFatherMiddleName() + "'" +
-            ", fatherLastName='" + getFatherLastName() + "'" +
-            ", motherName='" + getMotherName() + "'" +
-            ", motherMiddleName='" + getMotherMiddleName() + "'" +
-            ", motherLastName='" + getMotherLastName() + "'" +
-            ", contactNumber='" + getContactNumber() + "'" +
-            ", alternateMobileNumber='" + getAlternateMobileNumber() + "'" +
-            ", dateOfBirth='" + getDateOfBirth() + "'" +
-            ", email='" + getEmail() + "'" +
-            ", sex='" + getSex() + "'" +
-            ", comments='" + getComments() + "'" +
-            ", applicationId=" + getApplicationId() +
-            ", uploadPhoto='" + getUploadPhoto() + "'" +
-            ", course='" + getCourse() + "'" +
+            ", sourceOfApplication='" + getSourceOfApplication() + "'" +
+            ", studentId=" + getStudentId() +
+            ", applicationDate='" + getApplicationDate() + "'" +
+            ", completionDate='" + getCompletionDate() + "'" +
+            ", admissionNo=" + getAdmissionNo() +
             ", admissionDate='" + getAdmissionDate() + "'" +
-            ", status='" + getStatus() + "'" +
+            ", comments='" + getComments() + "'" +
+            ", applicationStatus='" + getApplicationStatus() + "'" +
+            ", branchId=" + getBranchId() +
+            ", createdBy='" + getCreatedBy() + "'" +
+            ", createdOn='" + getCreatedOn() + "'" +
+            ", updatedBy='" + getUpdatedBy() + "'" +
+            ", updatedOn='" + getUpdatedOn() + "'" +
             ", admissionEnquiry=" + getAdmissionEnquiryId() +
-            ", academicHistory=" + getAcademicHistoryId() +
-            ", documents=" + getDocumentsId() +
-            ", branch=" + getBranchId() +
-            ", batch=" + getBatchId() +
-            ", state=" + getStateId() +
-            ", city=" + getCityId() +
-            ", country=" + getCountryId() +
-            ", department=" + getDepartmentId() +
-            ", academicyear=" + getAcademicyearId() +
             "}";
     }
 }
