@@ -1,9 +1,89 @@
 scalar Date
 
 type Query {
-	getAbc: Long
+	getAdmissionEnquiryList(branchId: Long, academicYearId: Long, enquiryStatus: String ): [CmsAdmissionEnquiryVo]
 }
 
 type Mutation {
-	getAbc: Long
+	saveAdmissionEnquiry(input: AdmissionEnquiryInput): AdmissionEnquiryPayload
+}
+
+type AdmissionEnquiryPayload {
+	cmsAdmissionEnquiryVo: CmsAdmissionEnquiryVo
+}
+
+input AdmissionEnquiryInput {
+	id: Long
+	studentName: String 
+    studentMiddleName: String 
+    studentLastName: String  
+    cellPhoneNo: String  
+    landLinePhoneNo: String  
+    emailId: String  
+    dateOfBirth: Date 
+    gender: String 
+    highestQualification: String 
+    modeOfEnquiry: String 
+    enquiryDate: Date 
+    comments: String 
+    branchId: Long 
+    departmentId: Long 
+    courseId: Long 
+    semesterId: Long 
+    batchId: Long 
+    stateId: Long 
+    cityId: Long 
+    academicYearId: Long 
+    enquiryStatus: String 
+    createdBy: String 
+    createdOn: Date 
+    updatedBy: String 
+    updatedOn: Date 
+    strDateOfBirth: String 
+    strEnquiryDate: String 
+    strCreatedOn: String 
+    strUpdatedOn: String 
+    genderList: [String]
+    modeOfEnquiryList: [String]
+    enquiryStatusList: [String]
+    exitCode: Long
+    exitDescription: String 
+}
+
+type CmsAdmissionEnquiryVo {
+	id: Long
+	studentName: String 
+    studentMiddleName: String 
+    studentLastName: String  
+    cellPhoneNo: String  
+    landLinePhoneNo: String  
+    emailId: String  
+    dateOfBirth: Date 
+    gender: String 
+    highestQualification: String 
+    modeOfEnquiry: String 
+    enquiryDate: Date 
+    comments: String 
+    branchId: Long 
+    departmentId: Long 
+    courseId: Long 
+    semesterId: Long 
+    batchId: Long 
+    stateId: Long 
+    cityId: Long 
+    academicYearId: Long 
+    enquiryStatus: String 
+    createdBy: String 
+    createdOn: Date 
+    updatedBy: String 
+    updatedOn: Date 
+    strDateOfBirth: String 
+    strEnquiryDate: String 
+    strCreatedOn: String 
+    strUpdatedOn: String 
+    genderList: [String]
+    modeOfEnquiryList: [String]
+    enquiryStatusList: [String]
+    exitCode: Long
+    exitDescription: String
 }

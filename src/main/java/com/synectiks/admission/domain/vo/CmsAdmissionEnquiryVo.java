@@ -3,6 +3,7 @@ package com.synectiks.admission.domain.vo;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.List;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
@@ -41,21 +42,14 @@ public class CmsAdmissionEnquiryVo extends CmsCommonVo implements Serializable{
     private Long cityId;
     private Long academicYearId;
     private String enquiryStatus;
-    private String createdBy;
-    
-    @JsonSerialize(using = ToStringSerializer.class)
-    private LocalDate createdOn;
-    
-    private String updatedBy;
-    
-    @JsonSerialize(using = ToStringSerializer.class)
-    private LocalDate updatedOn;
-
     
     private String strDateOfBirth;
     private String strEnquiryDate;
-    private String strCreatedOn;
-    private String strUpdatedOn;
+    
+    private List<String> genderList;
+    private List<String> modeOfEnquiryList;
+    private List<String> enquiryStatusList;
+    
 	public Long getId() {
 		return id;
 	}
@@ -188,30 +182,7 @@ public class CmsAdmissionEnquiryVo extends CmsCommonVo implements Serializable{
 	public void setEnquiryStatus(String enquiryStatus) {
 		this.enquiryStatus = enquiryStatus;
 	}
-	public String getCreatedBy() {
-		return createdBy;
-	}
-	public void setCreatedBy(String createdBy) {
-		this.createdBy = createdBy;
-	}
-	public LocalDate getCreatedOn() {
-		return createdOn;
-	}
-	public void setCreatedOn(LocalDate createdOn) {
-		this.createdOn = createdOn;
-	}
-	public String getUpdatedBy() {
-		return updatedBy;
-	}
-	public void setUpdatedBy(String updatedBy) {
-		this.updatedBy = updatedBy;
-	}
-	public LocalDate getUpdatedOn() {
-		return updatedOn;
-	}
-	public void setUpdatedOn(LocalDate updatedOn) {
-		this.updatedOn = updatedOn;
-	}
+	
 	public String getStrDateOfBirth() {
 		return strDateOfBirth;
 	}
@@ -224,17 +195,24 @@ public class CmsAdmissionEnquiryVo extends CmsCommonVo implements Serializable{
 	public void setStrEnquiryDate(String strEnquiryDate) {
 		this.strEnquiryDate = strEnquiryDate;
 	}
-	public String getStrCreatedOn() {
-		return strCreatedOn;
+	public List<String> getGenderList() {
+		return genderList;
 	}
-	public void setStrCreatedOn(String strCreatedOn) {
-		this.strCreatedOn = strCreatedOn;
+	public void setGenderList(List<String> genderList) {
+		this.genderList = genderList;
 	}
-	public String getStrUpdatedOn() {
-		return strUpdatedOn;
+	public List<String> getModeOfEnquiryList() {
+		return modeOfEnquiryList;
 	}
-	public void setStrUpdatedOn(String strUpdatedOn) {
-		this.strUpdatedOn = strUpdatedOn;
+	public void setModeOfEnquiryList(List<String> modeOfEnquiryList) {
+		this.modeOfEnquiryList = modeOfEnquiryList;
 	}
+	public List<String> getEnquiryStatusList() {
+		return enquiryStatusList;
+	}
+	public void setEnquiryStatusList(List<String> enquiryStatusList) {
+		this.enquiryStatusList = enquiryStatusList;
+	}
+	
 
 }

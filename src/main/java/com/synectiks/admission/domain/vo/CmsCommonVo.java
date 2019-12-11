@@ -3,21 +3,31 @@ package com.synectiks.admission.domain.vo;
 import java.io.Serializable;
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+
 public class CmsCommonVo implements Serializable{
 	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
 	private String createdBy;
-    private LocalDate createdOn;
-    private String updatedBy;
+    
+	@JsonSerialize(using = ToStringSerializer.class)
+	private LocalDate createdOn;
+    
+	private String updatedBy;
+    
+    @JsonSerialize(using = ToStringSerializer.class)
     private LocalDate updatedOn;
+    
     private String status;
     private String strCreatedOn;
     private String strUpdatedOn;
-    private Long errorCode;
-    private String errorDescription;
+    private Long exitCode;
+    private String exitDescription;
     
     
 	public String getCreatedBy() {
@@ -62,17 +72,17 @@ public class CmsCommonVo implements Serializable{
 	public void setStrUpdatedOn(String strUpdatedOn) {
 		this.strUpdatedOn = strUpdatedOn;
 	}
-	public Long getErrorCode() {
-		return errorCode;
+	public Long getExitCode() {
+		return exitCode;
 	}
-	public void setErrorCode(Long errorCode) {
-		this.errorCode = errorCode;
+	public void setExitCode(Long exitCode) {
+		this.exitCode = exitCode;
 	}
-	public String getErrorDescription() {
-		return errorDescription;
+	public String getExitDescription() {
+		return exitDescription;
 	}
-	public void setErrorDescription(String errorDescription) {
-		this.errorDescription = errorDescription;
+	public void setExitDescription(String exitDescription) {
+		this.exitDescription = exitDescription;
 	}
     
 }

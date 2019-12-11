@@ -20,7 +20,7 @@ public class AdmissionEnquiryInput extends CmsAdmissionEnquiryVo{
 				+ getUpdatedBy() + ", getUpdatedOn()=" + getUpdatedOn() + ", getStrDateOfBirth()=" + getStrDateOfBirth()
 				+ ", getStrEnquiryDate()=" + getStrEnquiryDate() + ", getStrCreatedOn()=" + getStrCreatedOn()
 				+ ", getStrUpdatedOn()=" + getStrUpdatedOn() + ", getStatus()=" + getStatus() + ", getErrorCode()="
-				+ getErrorCode() + ", getErrorDescription()=" + getErrorDescription() + ", getClass()=" + getClass()
+				+ getExitCode() + ", getErrorDescription()=" + getExitDescription() + ", getClass()=" + getClass()
 				+ ", hashCode()=" + hashCode() + ", toString()=" + super.toString() + "]";
 	}
 

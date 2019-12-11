@@ -17,8 +17,8 @@ public class AdmissionApplicationInput extends CmsAdmissionApplicationVo{
 				+ ", getStrCompletionDate()=" + getStrCompletionDate() + ", getStrAdmissionDate()="
 				+ getStrAdmissionDate() + ", getStrCreatedOn()=" + getStrCreatedOn() + ", getStrUpdatedOn()="
 				+ getStrUpdatedOn() + ", getAdmissionEnquiryId()=" + getAdmissionEnquiryId() + ", getStatus()="
-				+ getStatus() + ", getErrorCode()=" + getErrorCode() + ", getErrorDescription()="
-				+ getErrorDescription() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()="
+				+ getStatus() + ", getErrorCode()=" + getExitCode() + ", getErrorDescription()="
+				+ getExitDescription() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()="
 				+ super.toString() + "]";
 	}
     
