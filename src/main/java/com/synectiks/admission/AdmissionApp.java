@@ -98,4 +98,12 @@ public class AdmissionApp {
 	public static <T> T getBean(Class<T> cls) {
 		return ctx.getBean(cls);
 	}
+	
+	public static Environment getEnvironment() {
+		return ctx.getEnvironment();
+	}
+	
+	public static int getServerPort() {
+		return Integer.parseInt(ctx.getEnvironment().getProperty("server.port"));
+	}
 }

@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 
 import com.coxautodev.graphql.tools.GraphQLQueryResolver;
 import com.synectiks.admission.business.service.CmsAdmissionEnquiryService;
-import com.synectiks.admission.constant.CmsConstants;
 import com.synectiks.admission.domain.vo.CmsAdmissionEnquiryVo;
 import com.synectiks.admission.repository.AdmissionApplicationRepository;
 import com.synectiks.admission.repository.AdmissionEnquiryRepository;
@@ -29,13 +28,6 @@ public class Query implements GraphQLQueryResolver {
     @Autowired
     private CmsAdmissionEnquiryService cmsAdmissionEnquiryService;
 
-//    @Autowired
-//    private AdmissionApplicationProcessor admissionApplicationProcessor;
-//
-//    @Autowired
-//    private CmsAdmissionApplicationService cmsAdmissionApplicationService;
-    
-
     public Query(AdmissionEnquiryRepository admissionEnquiryRepository, 
     		AdmissionApplicationRepository admissionApplicationRepository 
     		) {
@@ -47,6 +39,5 @@ public class Query implements GraphQLQueryResolver {
     	logger.debug("Query - getAdmissionEnquiryList :- Branch Id : "+branchId+", academicYearId : "+academicYearId+", enquiryStatus : "+enquiryStatus);
     	return this.cmsAdmissionEnquiryService.getAdmissionEnquiryList(branchId, academicYearId, enquiryStatus);
     }
-    
-    
+
 }

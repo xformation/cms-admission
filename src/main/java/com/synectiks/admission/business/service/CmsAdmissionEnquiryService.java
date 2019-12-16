@@ -11,12 +11,14 @@ import javax.transaction.Transactional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
 import com.synectiks.admission.constant.CmsConstants;
 import com.synectiks.admission.domain.AdmissionEnquiry;
 import com.synectiks.admission.domain.vo.CmsAdmissionEnquiryVo;
+import com.synectiks.admission.graphql.types.AdmissionApplication.AdmissionApplicationInput;
 import com.synectiks.admission.graphql.types.AdmissionEnquiry.AdmissionEnquiryInput;
 import com.synectiks.admission.graphql.types.AdmissionEnquiry.AdmissionEnquiryPayload;
 import com.synectiks.admission.service.util.CommonUtil;
@@ -32,6 +34,9 @@ public class CmsAdmissionEnquiryService {
 	
 	@PersistenceContext
     private EntityManager entityManager;
+	
+	@Autowired
+	private CmsAdmissionApplicationService cmsAdmissionApplicationService;
 	
     public List<CmsAdmissionEnquiryVo> getAdmissionEnquiryList(Long branchId, Long academicYearId, String enquiryStatus) throws ParseException, Exception {
         logger.info("Start getting admission enquiry data");
@@ -140,6 +145,14 @@ public class CmsAdmissionEnquiryService {
     	if(ae.getEnquiryDate() != null) {
     		vo.setStrEnquiryDate(DateFormatUtil.changeLocalDateFormat(ae.getEnquiryDate(), CmsConstants.DATE_FORMAT_dd_MM_yyyy));
     		vo.setEnquiryDate(null);
+    	}
+    	if(CmsConstants.TRANSACTION_SOURCE_ADMISSION_PAGE.equalsIgnoreCase(input.getTransactionSource())) {
+    		AdmissionApplicationInput apInput = new AdmissionApplicationInput();
+    		apInput.setApplicationStatus(CmsConstants.STATUS_ADMISSION_GRANTED);
+    		apInput.setAdmissionNo(ae.getId());
+    		apInput.setSourceOfApplication(CmsConstants.SOURCE_ADMISSION_ENQUIRY);
+    		apInput.setAdmissionEnquiryId(ae.getId());
+    		cmsAdmissionApplicationService.addAdmissionApplication(apInput);
     	}
     	vo.setExitCode(0L);
     	vo.setExitDescription("Admission enquiry updated successfully");

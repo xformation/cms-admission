@@ -96,5 +96,6 @@ public interface CmsConstants {
 	
     String ERROR_ADMISSIONENQUIRY_ALREADY_EXISTS = "Admission Enquiry already exists. Application allows only one Enquiry.";
     String VALIDATION_FAILURE = "Business validation failed: ";
-
+    String TRANSACTION_SOURCE_ADMISSION_PAGE = "ADMISSION_PAGE";
+    String SOURCE_ADMISSION_ENQUIRY = "ADMISSION_ENQUIRY";
 }

@@ -49,6 +49,7 @@ public class CmsAdmissionEnquiryVo extends CmsCommonVo implements Serializable{
     private List<String> genderList;
     private List<String> modeOfEnquiryList;
     private List<String> enquiryStatusList;
+    private String transactionSource;
     
 	public Long getId() {
 		return id;
@@ -212,6 +213,12 @@ public class CmsAdmissionEnquiryVo extends CmsCommonVo implements Serializable{
 	}
 	public void setEnquiryStatusList(List<String> enquiryStatusList) {
 		this.enquiryStatusList = enquiryStatusList;
+	}
+	public String getTransactionSource() {
+		return transactionSource;
+	}
+	public void setTransactionSource(String transactionSource) {
+		this.transactionSource = transactionSource;
 	}
 	
 
