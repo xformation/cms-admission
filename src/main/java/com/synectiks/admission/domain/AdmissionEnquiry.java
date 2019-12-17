@@ -17,8 +17,10 @@ import javax.validation.constraints.Size;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.synectiks.admission.utils.IESEntity;
 
 
@@ -56,7 +58,8 @@ public class AdmissionEnquiry implements Serializable, IESEntity {
     private String emailId;
 
     @Column(name = "date_of_birth")
-    @JsonSerialize(using = ToStringSerializer.class)
+    @JsonSerialize(using = LocalDateSerializer.class)
+	@JsonDeserialize(using = LocalDateDeserializer.class)
     private LocalDate dateOfBirth;
 
     @Column(name = "gender")
@@ -69,7 +72,8 @@ public class AdmissionEnquiry implements Serializable, IESEntity {
     private String modeOfEnquiry;
 
     @Column(name = "enquiry_date")
-    @JsonSerialize(using = ToStringSerializer.class)
+    @JsonSerialize(using = LocalDateSerializer.class)
+	@JsonDeserialize(using = LocalDateDeserializer.class)
     private LocalDate enquiryDate;
 
     @Size(max = 5000)
@@ -107,14 +111,16 @@ public class AdmissionEnquiry implements Serializable, IESEntity {
     private String createdBy;
 
     @Column(name = "created_on")
-    @JsonSerialize(using = ToStringSerializer.class)
+    @JsonSerialize(using = LocalDateSerializer.class)
+	@JsonDeserialize(using = LocalDateDeserializer.class)
     private LocalDate createdOn;
 
     @Column(name = "updated_by")
     private String updatedBy;
 
     @Column(name = "updated_on")
-    @JsonSerialize(using = ToStringSerializer.class)
+    @JsonSerialize(using = LocalDateSerializer.class)
+	@JsonDeserialize(using = LocalDateDeserializer.class)
     private LocalDate updatedOn;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove

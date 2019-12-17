@@ -15,8 +15,10 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.synectiks.admission.utils.IESEntity;
 
 /**
@@ -41,18 +43,21 @@ public class AdmissionApplication implements Serializable, IESEntity {
     private Long studentId;
 
     @Column(name = "application_date")
-    @JsonSerialize(using = ToStringSerializer.class)
+    @JsonSerialize(using = LocalDateSerializer.class)
+	@JsonDeserialize(using = LocalDateDeserializer.class)
     private LocalDate applicationDate;
 
     @Column(name = "completion_date")
-    @JsonSerialize(using = ToStringSerializer.class)
+    @JsonSerialize(using = LocalDateSerializer.class)
+	@JsonDeserialize(using = LocalDateDeserializer.class)
     private LocalDate completionDate;
 
     @Column(name = "admission_no")
     private Long admissionNo;
 
     @Column(name = "admission_date")
-    @JsonSerialize(using = ToStringSerializer.class)
+    @JsonSerialize(using = LocalDateSerializer.class)
+	@JsonDeserialize(using = LocalDateDeserializer.class)
     private LocalDate admissionDate;
 
     @Column(name = "comments")
@@ -68,14 +73,16 @@ public class AdmissionApplication implements Serializable, IESEntity {
     private String createdBy;
 
     @Column(name = "created_on")
-    @JsonSerialize(using = ToStringSerializer.class)
+    @JsonSerialize(using = LocalDateSerializer.class)
+	@JsonDeserialize(using = LocalDateDeserializer.class)
     private LocalDate createdOn;
 
     @Column(name = "updated_by")
     private String updatedBy;
 
     @Column(name = "updated_on")
-    @JsonSerialize(using = ToStringSerializer.class)
+    @JsonSerialize(using = LocalDateSerializer.class)
+	@JsonDeserialize(using = LocalDateDeserializer.class)
     private LocalDate updatedOn;
 
     @ManyToOne
