@@ -29,10 +29,6 @@ public class CmsAdmissionApplicationService {
 	@PersistenceContext
     private EntityManager entityManager;
 	
-	public synchronized Long generateAdmissionNo(Long oldValue) {
-		return oldValue + 1;
-	}
-	
 	public AdmissionApplicationPayload addAdmissionApplication(AdmissionApplicationInput input) {
     	logger.info("Adding admission application");
     	SynectiksJPARepo synectiksJPARepo = new SynectiksJPARepo(AdmissionApplication.class, this.entityManager);
@@ -44,7 +40,7 @@ public class CmsAdmissionApplicationService {
     		ae.setCompletionDate(LocalDate.now());
     		ae.setAdmissionDate(LocalDate.now());
     		ae.setComments("Admission granted based on an enquiry");
-    		ae.setAdmissionNo(generateAdmissionNo(input.getAdmissionNo()));
+    		ae.setAdmissionNo(CommonUtil.generateAdmissionNo(input.getAdmissionEnquiryId()));
     	}
     	
     	ae.setCreatedOn(LocalDate.now());

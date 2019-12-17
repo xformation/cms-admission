@@ -40,4 +40,8 @@ public class CommonUtil {
 		return true;
 	}
 	
+	public static synchronized Long generateAdmissionNo(Long oldValue) {
+		return oldValue + 1;
+	}
+	
 }

@@ -12,9 +12,14 @@ import javax.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.data.domain.Example;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
+import com.synectiks.admission.config.ApplicationProperties;
 import com.synectiks.admission.constant.CmsConstants;
 import com.synectiks.admission.domain.AdmissionEnquiry;
 import com.synectiks.admission.domain.vo.CmsAdmissionEnquiryVo;
@@ -37,6 +42,12 @@ public class CmsAdmissionEnquiryService {
 	
 	@Autowired
 	private CmsAdmissionApplicationService cmsAdmissionApplicationService;
+	
+	@Autowired
+	private ApplicationProperties applicationProperties;
+	
+	@Autowired
+	private RestTemplate restTemplate;
 	
     public List<CmsAdmissionEnquiryVo> getAdmissionEnquiryList(Long branchId, Long academicYearId, String enquiryStatus) throws ParseException, Exception {
         logger.info("Start getting admission enquiry data");
@@ -121,43 +132,88 @@ public class CmsAdmissionEnquiryService {
     }
     
     public AdmissionEnquiryPayload updateAdmissionEnquiry(AdmissionEnquiryInput input) {
-    	logger.info("Updating admission enquiry");
-    	SynectiksJPARepo synectiksJPARepo = new SynectiksJPARepo(AdmissionEnquiry.class, this.entityManager);
-    	AdmissionEnquiry ae = CommonUtil.createCopyProperties(input, AdmissionEnquiry.class);
-    	if(input.getStrDateOfBirth() != null) {
-    		ae.setDateOfBirth(DateFormatUtil.convertStringToLocalDate(input.getStrDateOfBirth(), CmsConstants.DATE_FORMAT_dd_MM_yyyy));
+    	CmsAdmissionEnquiryVo vo = null;
+    	Long studentId = null;
+    	try {
+    		if(CmsConstants.TRANSACTION_SOURCE_ADMISSION_PAGE.equalsIgnoreCase(input.getTransactionSource())) {
+    			logger.info("Converting enquiry to student profile");
+    			studentId = saveStudentData(input);
+    			logger.info("Enquiry converted to student profile successfully");
+        	}
+    		logger.info("Updating admission enquiry");
+        	SynectiksJPARepo synectiksJPARepo = new SynectiksJPARepo(AdmissionEnquiry.class, this.entityManager);
+        	AdmissionEnquiry ae = CommonUtil.createCopyProperties(input, AdmissionEnquiry.class);
+        	if(input.getStrDateOfBirth() != null) {
+        		ae.setDateOfBirth(DateFormatUtil.convertStringToLocalDate(input.getStrDateOfBirth(), CmsConstants.DATE_FORMAT_dd_MM_yyyy));
+        	}
+        	ae.setUpdatedOn(LocalDate.now());
+        	ae = (AdmissionEnquiry)synectiksJPARepo.save(ae);
+        	vo = CommonUtil.createCopyProperties(ae, CmsAdmissionEnquiryVo.class);
+        	if(ae.getDateOfBirth() != null) {
+        		vo.setStrDateOfBirth(DateFormatUtil.changeLocalDateFormat(ae.getDateOfBirth(), CmsConstants.DATE_FORMAT_dd_MM_yyyy));
+        		vo.setDateOfBirth(null);
+        	}
+        	if(ae.getCreatedOn() != null) {
+        		vo.setStrCreatedOn(DateFormatUtil.changeLocalDateFormat(ae.getCreatedOn(), CmsConstants.DATE_FORMAT_dd_MM_yyyy));
+        		vo.setCreatedOn(null);
+        	}
+        	if(ae.getUpdatedOn() != null) {
+        		vo.setStrUpdatedOn(DateFormatUtil.changeLocalDateFormat(ae.getUpdatedOn(), CmsConstants.DATE_FORMAT_dd_MM_yyyy));
+        		vo.setUpdatedOn(null);
+        	}
+        	if(ae.getEnquiryDate() != null) {
+        		vo.setStrEnquiryDate(DateFormatUtil.changeLocalDateFormat(ae.getEnquiryDate(), CmsConstants.DATE_FORMAT_dd_MM_yyyy));
+        		vo.setEnquiryDate(null);
+        	}
+        	if(CmsConstants.TRANSACTION_SOURCE_ADMISSION_PAGE.equalsIgnoreCase(input.getTransactionSource())) {
+        		logger.info("Converting enquiry to admission and generating admission number");
+        		AdmissionApplicationInput apInput = new AdmissionApplicationInput();
+        		apInput.setApplicationStatus(CmsConstants.STATUS_ADMISSION_GRANTED);
+        		apInput.setSourceOfApplication(CmsConstants.SOURCE_ADMISSION_ENQUIRY);
+        		apInput.setAdmissionEnquiryId(ae.getId());
+        		apInput.setAdmissionEnquiry(ae);
+        		apInput.setStudentId(studentId);
+        		cmsAdmissionApplicationService.addAdmissionApplication(apInput);
+        		logger.info("Admission number generated successfully. Now creating student profile from admission enquiry");
+        	}
+        	vo.setExitCode(0L);
+        	vo.setExitDescription("Admission enquiry updated successfully");
+        	logger.info("Admission enquiry updated successfully");
+    	}catch(Exception e) {
+    		logger.error("Exception in converting ");
+    		if(CmsConstants.TRANSACTION_SOURCE_ADMISSION_PAGE.equalsIgnoreCase(input.getTransactionSource())) {
+    			deleteStudentData(studentId);
+        	}
     	}
-    	ae.setUpdatedOn(LocalDate.now());
-    	ae = (AdmissionEnquiry)synectiksJPARepo.save(ae);
-    	CmsAdmissionEnquiryVo vo = CommonUtil.createCopyProperties(ae, CmsAdmissionEnquiryVo.class);
-    	if(ae.getDateOfBirth() != null) {
-    		vo.setStrDateOfBirth(DateFormatUtil.changeLocalDateFormat(ae.getDateOfBirth(), CmsConstants.DATE_FORMAT_dd_MM_yyyy));
-    		vo.setDateOfBirth(null);
-    	}
-    	if(ae.getCreatedOn() != null) {
-    		vo.setStrCreatedOn(DateFormatUtil.changeLocalDateFormat(ae.getCreatedOn(), CmsConstants.DATE_FORMAT_dd_MM_yyyy));
-    		vo.setCreatedOn(null);
-    	}
-    	if(ae.getUpdatedOn() != null) {
-    		vo.setStrUpdatedOn(DateFormatUtil.changeLocalDateFormat(ae.getUpdatedOn(), CmsConstants.DATE_FORMAT_dd_MM_yyyy));
-    		vo.setUpdatedOn(null);
-    	}
-    	if(ae.getEnquiryDate() != null) {
-    		vo.setStrEnquiryDate(DateFormatUtil.changeLocalDateFormat(ae.getEnquiryDate(), CmsConstants.DATE_FORMAT_dd_MM_yyyy));
-    		vo.setEnquiryDate(null);
-    	}
-    	if(CmsConstants.TRANSACTION_SOURCE_ADMISSION_PAGE.equalsIgnoreCase(input.getTransactionSource())) {
-    		AdmissionApplicationInput apInput = new AdmissionApplicationInput();
-    		apInput.setApplicationStatus(CmsConstants.STATUS_ADMISSION_GRANTED);
-    		apInput.setAdmissionNo(ae.getId());
-    		apInput.setSourceOfApplication(CmsConstants.SOURCE_ADMISSION_ENQUIRY);
-    		apInput.setAdmissionEnquiryId(ae.getId());
-    		cmsAdmissionApplicationService.addAdmissionApplication(apInput);
-    	}
-    	vo.setExitCode(0L);
-    	vo.setExitDescription("Admission enquiry updated successfully");
-    	logger.info("Admission enquiry updated successfully");
     	return new AdmissionEnquiryPayload(vo);
+    }
+    
+    private Long saveStudentData(AdmissionEnquiryInput input) throws Exception {
+    	Long id = null;
+    	AdmissionEnquiryInput inp = CommonUtil.createCopyProperties(input, AdmissionEnquiryInput.class);
+    	inp.setId(null);
+    	Long admissionNo = CommonUtil.generateAdmissionNo(input.getId());
+    	String url = applicationProperties.getPrefSrvUrl()+"/api/cms-grant-admission-to-student?admissionNo="+admissionNo;
+		try {
+			id = restTemplate.postForObject(url, inp, Long.class);
+		}catch(Exception e) {
+			logger.error("Student record could not be saved. Exception : ", e);
+			throw e;
+		}
+		logger.info("Admission granted to student. New student id : "+id);
+		return id;
+    }
+    
+    private Long deleteStudentData(Long id) {
+    	logger.info("Start deleting student record");
+    	String url = applicationProperties.getPrefSrvUrl()+"/api/cmsstudents/"+id;
+    	try {
+    		restTemplate.delete(url, new Object());;
+		}catch(Exception e) {
+			logger.error("Student record could not be deleted. Exception : ", e);
+		}
+		logger.info("Student record deleted successfully");
+		return id;
     }
 }
 

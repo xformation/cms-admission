@@ -151,3 +151,4 @@ application:
     influxDbPassword: cms
     influxDbLogLevel: BASIC
     secSrvUrl: http://localhost:8094
+    prefSrvUrl: http://localhost:8080
