@@ -1,0 +1,1 @@
+java -jar target/admission-0.0.1-SNAPSHOT.jar --SERVER_PORT=9094 > console.log &
