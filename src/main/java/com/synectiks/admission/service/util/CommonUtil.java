@@ -1,9 +1,19 @@
 package com.synectiks.admission.service.util;
 
+import java.util.List;
+
+import javax.persistence.EntityManager;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeansException;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+
+import com.synectiks.admission.domain.AdmissionApplication;
+import com.synectiks.admission.utils.SynectiksJPARepo;
 
 public class CommonUtil {
 	private static final Logger logger = LoggerFactory.getLogger(CommonUtil.class);
@@ -40,8 +50,16 @@ public class CommonUtil {
 		return true;
 	}
 	
-	public static synchronized Long generateAdmissionNo(Long oldValue) {
-		return oldValue + 1;
+	public static synchronized Long generateAdmissionNo(EntityManager entityManager, Long branchId) {
+		SynectiksJPARepo synectiksJPARepo = new SynectiksJPARepo(AdmissionApplication.class, entityManager);
+		AdmissionApplication aa = new AdmissionApplication();
+		aa.setBranchId(branchId);
+		
+		List<AdmissionApplication> list = synectiksJPARepo.findAll(Example.of(aa), Sort.by(Direction.DESC, "id"));
+		if(list.size() == 0) {
+			return 1L;
+		}
+		return list.get(0).getId()+1;
 	}
 	
 }

@@ -3,7 +3,9 @@ package com.synectiks.admission.business.service;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -12,10 +14,7 @@ import javax.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.data.domain.Example;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -91,6 +90,9 @@ public class CmsAdmissionEnquiryService {
     	if(input.getId() == null) {
     		return addAdmissionEnquiry(input);
     	}
+    	if("STUDENT_PROFILE".equalsIgnoreCase(input.getSourceOfApplication())) {
+    		return grantAdmissionToStudent(input);
+    	}
     	return updateAdmissionEnquiry(input);
     }
 
@@ -134,10 +136,12 @@ public class CmsAdmissionEnquiryService {
     public AdmissionEnquiryPayload updateAdmissionEnquiry(AdmissionEnquiryInput input) {
     	CmsAdmissionEnquiryVo vo = null;
     	Long studentId = null;
+    	Long admissionNo = CommonUtil.generateAdmissionNo(this.entityManager, input.getBranchId());
     	try {
+    		
     		if(CmsConstants.TRANSACTION_SOURCE_ADMISSION_PAGE.equalsIgnoreCase(input.getTransactionSource())) {
     			logger.info("Converting enquiry to student profile");
-    			studentId = saveStudentData(input);
+    			studentId = saveStudentData(input, admissionNo);
     			logger.info("Enquiry converted to student profile successfully");
         	}
     		logger.info("Updating admission enquiry");
@@ -173,14 +177,15 @@ public class CmsAdmissionEnquiryService {
         		apInput.setAdmissionEnquiryId(ae.getId());
         		apInput.setAdmissionEnquiry(ae);
         		apInput.setStudentId(studentId);
-        		cmsAdmissionApplicationService.addAdmissionApplication(apInput);
+        		apInput.setBranchId(ae.getBranchId());
+        		cmsAdmissionApplicationService.addAdmissionApplication(apInput, admissionNo);
         		logger.info("Admission number generated successfully. Now creating student profile from admission enquiry");
         	}
         	vo.setExitCode(0L);
         	vo.setExitDescription("Admission enquiry updated successfully");
         	logger.info("Admission enquiry updated successfully");
     	}catch(Exception e) {
-    		logger.error("Exception in converting ");
+    		logger.error("Exception in grating enquiry to admission: ",e);
     		if(CmsConstants.TRANSACTION_SOURCE_ADMISSION_PAGE.equalsIgnoreCase(input.getTransactionSource())) {
     			deleteStudentData(studentId);
         	}
@@ -188,14 +193,62 @@ public class CmsAdmissionEnquiryService {
     	return new AdmissionEnquiryPayload(vo);
     }
     
-    private Long saveStudentData(AdmissionEnquiryInput input) throws Exception {
+    public AdmissionEnquiryPayload grantAdmissionToStudent(AdmissionEnquiryInput input) {
+    	CmsAdmissionEnquiryVo vo = new CmsAdmissionEnquiryVo();
+    	Long studentId = null;
+    	Long admissionNo = CommonUtil.generateAdmissionNo(this.entityManager, input.getBranchId());
+    	try {
+    		if(CmsConstants.TRANSACTION_SOURCE_ADMISSION_PAGE.equalsIgnoreCase(input.getTransactionSource())) {
+    			logger.info("Assigning admission number to student");
+    			studentId = saveStudentData(input, admissionNo);
+    			logger.info("Admission number assigned successfully to student");
+        	}
+
+        	if(CmsConstants.TRANSACTION_SOURCE_ADMISSION_PAGE.equalsIgnoreCase(input.getTransactionSource())) {
+        		logger.info("Converting enquiry to admission and generating admission number");
+        		AdmissionApplicationInput apInput = new AdmissionApplicationInput();
+        		apInput.setApplicationStatus(CmsConstants.STATUS_ADMISSION_GRANTED);
+        		apInput.setSourceOfApplication(CmsConstants.SOURCE_STUDENT);
+        		apInput.setStudentId(input.getId());
+        		apInput.setAdmissionEnquiryId(input.getId()); // will be used as a base for new admission number
+        		apInput.setBranchId(input.getBranchId());
+        		cmsAdmissionApplicationService.addAdmissionApplication(apInput, admissionNo);
+        		logger.info("Admission number generated successfully. Now creating student profile from admission enquiry");
+        	}
+        	vo.setExitCode(0L);
+        	vo.setExitDescription("Admission granted successfully");
+        	logger.info("Admission granted successfully");
+    	}catch(Exception e) {
+    		logger.error("Exception in grantAdmissionToStudent:  ");
+    		if(CmsConstants.TRANSACTION_SOURCE_ADMISSION_PAGE.equalsIgnoreCase(input.getTransactionSource())) {
+    			deleteStudentData(studentId);
+        	}
+    	}
+    	return new AdmissionEnquiryPayload(vo);
+    }
+    
+    private Long saveStudentData(AdmissionEnquiryInput input, Long admissionNo) throws Exception {
     	Long id = null;
     	AdmissionEnquiryInput inp = CommonUtil.createCopyProperties(input, AdmissionEnquiryInput.class);
-    	inp.setId(null);
-    	Long admissionNo = CommonUtil.generateAdmissionNo(input.getId());
-    	String url = applicationProperties.getPrefSrvUrl()+"/api/cms-grant-admission-to-student?admissionNo="+admissionNo;
+    	
+    	// Below if condition is used to create a new student record if granting admission to an enquiry.
+    	// This will create a new record in student table.
+    	// But if source of application is STUDENT_PROFILE that means, admission is being granted to
+    	// a student whose record exists in student table.
+    	if(CmsConstants.SOURCE_ADMISSION_ENQUIRY.equalsIgnoreCase(input.getSourceOfApplication())) { 
+    		inp.setId(null);
+    	}
+    	
+    	String url = applicationProperties.getCmsBackEndUrl()+"/api/cms-grant-admission-to-student?admissionNo="+admissionNo;
 		try {
-			id = restTemplate.postForObject(url, inp, Long.class);
+			if(CmsConstants.SOURCE_ADMISSION_ENQUIRY.equalsIgnoreCase(input.getSourceOfApplication())) { 
+				id = restTemplate.postForObject(url, inp, Long.class); // if we convert enquiry, we need to create a new entry in student table.
+			}else {
+				Map<String, Long> vars = new HashMap<String, Long>();
+				vars.put("id", input.getId());
+				restTemplate.put(url, inp, vars); // existing student records should be updated with new admission no.
+			}
+			
 		}catch(Exception e) {
 			logger.error("Student record could not be saved. Exception : ", e);
 			throw e;

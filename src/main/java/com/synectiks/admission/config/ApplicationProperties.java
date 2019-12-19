@@ -18,6 +18,7 @@ public class ApplicationProperties {
 	private String influxDbLogLevel;
 	private String secSrvUrl;
 	private String prefSrvUrl;
+	private String cmsBackEndUrl;
 	
 	public String getInfluxDbUrl() {
 		return influxDbUrl;
@@ -60,6 +61,12 @@ public class ApplicationProperties {
 	}
 	public void setPrefSrvUrl(String prefSrvUrl) {
 		this.prefSrvUrl = prefSrvUrl;
+	}
+	public String getCmsBackEndUrl() {
+		return cmsBackEndUrl;
+	}
+	public void setCmsBackEndUrl(String cmsBackEndUrl) {
+		this.cmsBackEndUrl = cmsBackEndUrl;
 	}
 	
 	

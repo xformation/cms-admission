@@ -29,7 +29,7 @@ public class CmsAdmissionApplicationService {
 	@PersistenceContext
     private EntityManager entityManager;
 	
-	public AdmissionApplicationPayload addAdmissionApplication(AdmissionApplicationInput input) {
+	public AdmissionApplicationPayload addAdmissionApplication(AdmissionApplicationInput input, Long admissionNo) {
     	logger.info("Adding admission application");
     	SynectiksJPARepo synectiksJPARepo = new SynectiksJPARepo(AdmissionApplication.class, this.entityManager);
     	AdmissionApplication ae = CommonUtil.createCopyProperties(input, AdmissionApplication.class);
@@ -40,7 +40,7 @@ public class CmsAdmissionApplicationService {
     		ae.setCompletionDate(LocalDate.now());
     		ae.setAdmissionDate(LocalDate.now());
     		ae.setComments("Admission granted based on an enquiry");
-    		ae.setAdmissionNo(CommonUtil.generateAdmissionNo(input.getAdmissionEnquiryId()));
+    		ae.setAdmissionNo(admissionNo);
     	}
     	
     	ae.setCreatedOn(LocalDate.now());
@@ -76,90 +76,7 @@ public class CmsAdmissionApplicationService {
     	logger.info("Admission enquiry added successfully");
     	return new AdmissionApplicationPayload(vo);
     }
-//    @Autowired
-//    private AdmissionApplicationRepository admissionApplicationRepository;
-//
-//    public Long getTotalReceived(Long academicyearId) {
-//        Long a = getTotalInprocess(academicyearId);
-//        Long b = getTotalDeclined(academicyearId);
-//        Long c = getTotalAccepted(academicyearId);
-//        return a + b + c;
-//    }
-//
-//    public Long getTotalDeclined(Long academicyearId) {
-//        AdmissionApplication admissionApplication = new AdmissionApplication();
-//
-//        if (academicyearId != null) {
-//            AcademicYear academicyear = new AcademicYear();
-//            academicyear.setId(academicyearId);
-//            admissionApplication.setAcademicyear(academicyear);
-//        }
-//
-//
-//
-//        admissionApplication.setAdmissionStatus(AdmissionStatusEnum.DECLINED);
-//        Example<AdmissionApplication> example = Example.of(admissionApplication);
-//        Long cnt = this.admissionApplicationRepository.count(example);
-//        return cnt;
-//    }
-//
-//    public Long getTotalInprocess(Long academicyearId) {
-//        AdmissionApplication admissionApplication = new AdmissionApplication();
-//
-//        if (academicyearId != null) {
-//            AcademicYear academicyear = new AcademicYear();
-//            academicyear.setId(academicyearId);
-//            admissionApplication.setAcademicyear(academicyear);
-//        }
-//
-//        admissionApplication.setAdmissionStatus(AdmissionStatusEnum.INPROCESS);
-//        Example<AdmissionApplication> example = Example.of(admissionApplication);
-//        Long cnt = this.admissionApplicationRepository.count(example);
-//        return cnt;
-//    }
-//
-//    public Long getTotalAccepted(Long academicyearId) {
-//        AdmissionApplication admissionApplication = new AdmissionApplication();
-//
-//        if (academicyearId != null) {
-//            AcademicYear academicyear = new AcademicYear();
-//            academicyear.setId(academicyearId);
-//            admissionApplication.setAcademicyear(academicyear);
-//        }
-//
-//        admissionApplication.setAdmissionStatus(AdmissionStatusEnum.ACCEPTED);
-//        Example<AdmissionApplication> example = Example.of(admissionApplication);
-//        Long cnt = this.admissionApplicationRepository.count(example);
-//        return cnt;
-//    }
-//
-//    public List<CmsAdmissionApplicationVo> searchAdmissionOnType(String admissionApplicationType, Long academicyearId) throws Exception {
-//        AdmissionApplication admissionApplication = new AdmissionApplication();
-//        AcademicYear academicyear = new AcademicYear();
-//        academicyear.setId(academicyearId);
-//        admissionApplication.setAcademicyear(academicyear);
-//
-//        if(!admissionApplicationType.equalsIgnoreCase("RECEIVED")) {
-//            if(admissionApplicationType.equalsIgnoreCase("INPROCESS")) {
-//                admissionApplication.setAdmissionStatus(AdmissionStatusEnum.INPROCESS);
-//            }else if(admissionApplicationType.equalsIgnoreCase("DECLINED")) {
-//                admissionApplication.setAdmissionStatus(AdmissionStatusEnum.DECLINED);
-//            }else if(admissionApplicationType.equalsIgnoreCase("ACCEPTED")) {
-//                admissionApplication.setAdmissionStatus(AdmissionStatusEnum.ACCEPTED);
-//            }
-//        }
-//
-//        Example<AdmissionApplication> example = Example.of(admissionApplication);
-//        List<AdmissionApplication> list = this.admissionApplicationRepository.findAll(example);
-//        List<CmsAdmissionApplicationVo> ls = new ArrayList<>();
-//        for(AdmissionApplication temp: list) {
-//            CmsAdmissionApplicationVo cae = CommonUtil.createCopyProperties(temp, CmsAdmissionApplicationVo.class);
-//            cae.setStrAdmissionDate(DateFormatUtil.changeDateFormat(CmsConstants.DATE_FORMAT_dd_MM_yyyy, CmsConstants.DATE_FORMAT_yyyy_MM_dd, DateFormatUtil.changeDateFormat(CmsConstants.DATE_FORMAT_yyyy_MM_dd, DateFormatUtil.converUtilDateFromLocaDate(temp.getAdmissionDate()))));
-//
-//            ls.add(cae);
-//        }
-//        return ls;
-//    }
+
 
 
 }

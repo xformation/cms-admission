@@ -98,4 +98,5 @@ public interface CmsConstants {
     String VALIDATION_FAILURE = "Business validation failed: ";
     String TRANSACTION_SOURCE_ADMISSION_PAGE = "ADMISSION_PAGE";
     String SOURCE_ADMISSION_ENQUIRY = "ADMISSION_ENQUIRY";
+    String SOURCE_STUDENT = "STUDENT";
 }

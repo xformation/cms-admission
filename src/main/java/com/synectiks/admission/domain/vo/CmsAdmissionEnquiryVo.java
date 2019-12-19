@@ -50,6 +50,7 @@ public class CmsAdmissionEnquiryVo extends CmsCommonVo implements Serializable{
     private List<String> modeOfEnquiryList;
     private List<String> enquiryStatusList;
     private String transactionSource;
+    private String sourceOfApplication;
     
 	public Long getId() {
 		return id;
@@ -219,6 +220,12 @@ public class CmsAdmissionEnquiryVo extends CmsCommonVo implements Serializable{
 	}
 	public void setTransactionSource(String transactionSource) {
 		this.transactionSource = transactionSource;
+	}
+	public String getSourceOfApplication() {
+		return sourceOfApplication;
+	}
+	public void setSourceOfApplication(String sourceOfApplication) {
+		this.sourceOfApplication = sourceOfApplication;
 	}
 	
 

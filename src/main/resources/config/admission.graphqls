@@ -2,6 +2,7 @@ scalar Date
 
 type Query {
 	getAdmissionEnquiryList(branchId: Long, academicYearId: Long, enquiryStatus: String ): [CmsAdmissionEnquiryVo]
+	getStudentList(branchId: Long, academicYearId: Long): [CmsAdmissionEnquiryVo]
 }
 
 type Mutation {
@@ -49,6 +50,7 @@ input AdmissionEnquiryInput {
     exitCode: Long
     exitDescription: String 
     transactionSource: String
+    sourceOfApplication: String
 }
 
 type CmsAdmissionEnquiryVo {
@@ -88,4 +90,5 @@ type CmsAdmissionEnquiryVo {
     exitCode: Long
     exitDescription: String
     transactionSource: String
+    sourceOfApplication: String
 }
