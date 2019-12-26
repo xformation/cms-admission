@@ -25,6 +25,7 @@ import com.synectiks.admission.domain.vo.CmsAdmissionEnquiryVo;
 import com.synectiks.admission.graphql.types.AdmissionApplication.AdmissionApplicationInput;
 import com.synectiks.admission.graphql.types.AdmissionEnquiry.AdmissionEnquiryInput;
 import com.synectiks.admission.graphql.types.AdmissionEnquiry.AdmissionEnquiryPayload;
+import com.synectiks.admission.repository.AdmissionEnquiryRepository;
 import com.synectiks.admission.service.util.CommonUtil;
 import com.synectiks.admission.service.util.DateFormatUtil;
 import com.synectiks.admission.utils.IUtils;
@@ -48,6 +49,9 @@ public class CmsAdmissionEnquiryService {
 	@Autowired
 	private RestTemplate restTemplate;
 	
+	@Autowired
+	AdmissionEnquiryRepository admissionEnquiryRepository;
+	
     public List<CmsAdmissionEnquiryVo> getAdmissionEnquiryList(Long branchId, Long academicYearId, String enquiryStatus) throws ParseException, Exception {
         logger.info("Start getting admission enquiry data");
     	AdmissionEnquiry admissionEnquiry = new AdmissionEnquiry();
@@ -58,8 +62,8 @@ public class CmsAdmissionEnquiryService {
         }
 
         Example<AdmissionEnquiry> example = Example.of(admissionEnquiry);
-        SynectiksJPARepo synectiksJPARepo = new SynectiksJPARepo(AdmissionEnquiry.class, this.entityManager);
-        List<AdmissionEnquiry> list = synectiksJPARepo.findAll(example);
+//        SynectiksJPARepo synectiksJPARepo = new SynectiksJPARepo(AdmissionEnquiry.class, this.entityManager);
+        List<AdmissionEnquiry> list = admissionEnquiryRepository.findAll(example);
         List<CmsAdmissionEnquiryVo> ls = new ArrayList<>();
         for(AdmissionEnquiry temp: list) {
         	logger.debug("Admission enquiry data : "+temp.toString());
@@ -98,7 +102,7 @@ public class CmsAdmissionEnquiryService {
 
     public AdmissionEnquiryPayload addAdmissionEnquiry(AdmissionEnquiryInput input) {
     	logger.info("Adding admission enquiry");
-    	SynectiksJPARepo synectiksJPARepo = new SynectiksJPARepo(AdmissionEnquiry.class, this.entityManager);
+//    	SynectiksJPARepo synectiksJPARepo = new SynectiksJPARepo(AdmissionEnquiry.class, this.entityManager);
     	AdmissionEnquiry ae = CommonUtil.createCopyProperties(input, AdmissionEnquiry.class);
     	ae.setEnquiryStatus(CmsConstants.STATUS_RECEIVED);
     	if(input.getStrDateOfBirth() != null) {
@@ -108,7 +112,7 @@ public class CmsAdmissionEnquiryService {
     	ae.setCreatedOn(LocalDate.now());
     	ae.setEnquiryDate(LocalDate.now());
     	
-    	ae = (AdmissionEnquiry)synectiksJPARepo.save(ae);
+    	ae = admissionEnquiryRepository.save(ae);
     	
     	CmsAdmissionEnquiryVo vo = CommonUtil.createCopyProperties(ae, CmsAdmissionEnquiryVo.class);
     	if(ae.getDateOfBirth() != null) {
@@ -145,13 +149,13 @@ public class CmsAdmissionEnquiryService {
     			logger.info("Enquiry converted to student profile successfully");
         	}
     		logger.info("Updating admission enquiry");
-        	SynectiksJPARepo synectiksJPARepo = new SynectiksJPARepo(AdmissionEnquiry.class, this.entityManager);
+//        	SynectiksJPARepo synectiksJPARepo = new SynectiksJPARepo(AdmissionEnquiry.class, this.entityManager);
         	AdmissionEnquiry ae = CommonUtil.createCopyProperties(input, AdmissionEnquiry.class);
         	if(input.getStrDateOfBirth() != null) {
         		ae.setDateOfBirth(DateFormatUtil.convertStringToLocalDate(input.getStrDateOfBirth(), CmsConstants.DATE_FORMAT_dd_MM_yyyy));
         	}
         	ae.setUpdatedOn(LocalDate.now());
-        	ae = (AdmissionEnquiry)synectiksJPARepo.save(ae);
+        	ae = admissionEnquiryRepository.save(ae);
         	vo = CommonUtil.createCopyProperties(ae, CmsAdmissionEnquiryVo.class);
         	if(ae.getDateOfBirth() != null) {
         		vo.setStrDateOfBirth(DateFormatUtil.changeLocalDateFormat(ae.getDateOfBirth(), CmsConstants.DATE_FORMAT_dd_MM_yyyy));

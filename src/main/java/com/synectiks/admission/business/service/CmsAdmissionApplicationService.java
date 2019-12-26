@@ -8,6 +8,7 @@ import javax.persistence.PersistenceContext;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,6 +17,7 @@ import com.synectiks.admission.domain.AdmissionApplication;
 import com.synectiks.admission.domain.vo.CmsAdmissionApplicationVo;
 import com.synectiks.admission.graphql.types.AdmissionApplication.AdmissionApplicationInput;
 import com.synectiks.admission.graphql.types.AdmissionApplication.AdmissionApplicationPayload;
+import com.synectiks.admission.repository.AdmissionApplicationRepository;
 import com.synectiks.admission.service.util.CommonUtil;
 import com.synectiks.admission.service.util.DateFormatUtil;
 import com.synectiks.admission.utils.SynectiksJPARepo;
@@ -29,9 +31,12 @@ public class CmsAdmissionApplicationService {
 	@PersistenceContext
     private EntityManager entityManager;
 	
+	@Autowired
+	private AdmissionApplicationRepository admissionApplicationRepository;
+	
 	public AdmissionApplicationPayload addAdmissionApplication(AdmissionApplicationInput input, Long admissionNo) {
     	logger.info("Adding admission application");
-    	SynectiksJPARepo synectiksJPARepo = new SynectiksJPARepo(AdmissionApplication.class, this.entityManager);
+//    	SynectiksJPARepo synectiksJPARepo = new SynectiksJPARepo(AdmissionApplication.class, this.entityManager);
     	AdmissionApplication ae = CommonUtil.createCopyProperties(input, AdmissionApplication.class);
     	ae.setApplicationStatus(CmsConstants.STATUS_ADMISSION_GRANTED);
     	
@@ -45,7 +50,7 @@ public class CmsAdmissionApplicationService {
     	
     	ae.setCreatedOn(LocalDate.now());
     	
-    	ae = (AdmissionApplication)synectiksJPARepo.save(ae);
+    	ae = admissionApplicationRepository.save(ae);
     	
     	CmsAdmissionApplicationVo vo = CommonUtil.createCopyProperties(ae, CmsAdmissionApplicationVo.class);
     	if(ae.getApplicationDate() != null) {
