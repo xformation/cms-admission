@@ -19,7 +19,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import com.synectiks.admission.config.ApplicationProperties;
 import com.synectiks.admission.config.DefaultProfileUtil;
 import com.synectiks.admission.utils.SynectiksJPARepo;
-import com.synectiks.admission.websocket.CmsWebSocketServer;
+import com.synectiks.admission.websocket.CmsAdmissionWebSocketServer;
 
 import io.github.jhipster.config.JHipsterConstants;
 
@@ -91,7 +91,7 @@ public class AdmissionApp {
             env.getProperty("server.port"),
             env.getActiveProfiles());
         
-        new CmsWebSocketServer(4000).start();
+        new CmsAdmissionWebSocketServer(6000).start();
     }
 
 	/**

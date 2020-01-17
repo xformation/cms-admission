@@ -15,16 +15,16 @@ import org.slf4j.LoggerFactory;
  *
  */
 
-public class CmsWebSocketServer extends WebSocketServer {
+public class CmsAdmissionWebSocketServer extends WebSocketServer {
 
-	private final static Logger logger = LoggerFactory.getLogger(CmsWebSocketServer.class);
+	private final static Logger logger = LoggerFactory.getLogger(CmsAdmissionWebSocketServer.class);
     
 //    @Autowired
 //    private CmsAdmissionEnquiryService cmsAdmissionEnquiryService;
 
 	private Set<WebSocket> conns;
 
-	public CmsWebSocketServer(int port) {
+	public CmsAdmissionWebSocketServer(int port) {
 		super(new InetSocketAddress(port));
 		conns = new HashSet<>();
 	}
