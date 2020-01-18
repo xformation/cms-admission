@@ -91,4 +91,5 @@ type CmsAdmissionEnquiryVo {
     exitDescription: String
     transactionSource: String
     sourceOfApplication: String
+    dataList: [CmsAdmissionEnquiryVo]
 }

@@ -3,6 +3,7 @@ package com.synectiks.admission.domain.vo;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -51,6 +52,7 @@ public class CmsAdmissionEnquiryVo extends CmsCommonVo implements Serializable{
     private List<String> enquiryStatusList;
     private String transactionSource;
     private String sourceOfApplication;
+    private List<CmsAdmissionEnquiryVo> dataList = new ArrayList<CmsAdmissionEnquiryVo>();
     
 	public Long getId() {
 		return id;
@@ -226,6 +228,12 @@ public class CmsAdmissionEnquiryVo extends CmsCommonVo implements Serializable{
 	}
 	public void setSourceOfApplication(String sourceOfApplication) {
 		this.sourceOfApplication = sourceOfApplication;
+	}
+	public List<CmsAdmissionEnquiryVo> getDataList() {
+		return dataList;
+	}
+	public void setDataList(List<CmsAdmissionEnquiryVo> dataList) {
+		this.dataList = dataList;
 	}
 	
 

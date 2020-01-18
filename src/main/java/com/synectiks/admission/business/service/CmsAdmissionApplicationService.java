@@ -2,13 +2,14 @@ package com.synectiks.admission.business.service;
 
 
 import java.time.LocalDate;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,7 +21,6 @@ import com.synectiks.admission.graphql.types.AdmissionApplication.AdmissionAppli
 import com.synectiks.admission.repository.AdmissionApplicationRepository;
 import com.synectiks.admission.service.util.CommonUtil;
 import com.synectiks.admission.service.util.DateFormatUtil;
-import com.synectiks.admission.utils.SynectiksJPARepo;
 
 @Service
 @Transactional
@@ -28,15 +28,11 @@ public class CmsAdmissionApplicationService {
 	
 	private final static Logger logger = LoggerFactory.getLogger(CmsAdmissionApplicationService.class);
 	
-	@PersistenceContext
-    private EntityManager entityManager;
-	
 	@Autowired
 	private AdmissionApplicationRepository admissionApplicationRepository;
 	
 	public AdmissionApplicationPayload addAdmissionApplication(AdmissionApplicationInput input, Long admissionNo) {
     	logger.info("Adding admission application");
-//    	SynectiksJPARepo synectiksJPARepo = new SynectiksJPARepo(AdmissionApplication.class, this.entityManager);
     	AdmissionApplication ae = CommonUtil.createCopyProperties(input, AdmissionApplication.class);
     	ae.setApplicationStatus(CmsConstants.STATUS_ADMISSION_GRANTED);
     	
@@ -82,6 +78,15 @@ public class CmsAdmissionApplicationService {
     	return new AdmissionApplicationPayload(vo);
     }
 
-
+	public synchronized Long generateAdmissionNo(Long branchId) {
+		AdmissionApplication aa = new AdmissionApplication();
+		aa.setBranchId(branchId);
+		
+		List<AdmissionApplication> list = this.admissionApplicationRepository.findAll(Example.of(aa), Sort.by(Direction.DESC, "id"));
+		if(list.size() == 0) {
+			return 1L;
+		}
+		return list.get(0).getId()+1;
+	}
 
 }

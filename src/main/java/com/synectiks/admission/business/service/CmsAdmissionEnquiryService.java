@@ -1,14 +1,12 @@
 package com.synectiks.admission.business.service;
 
-import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
 import org.slf4j.Logger;
@@ -29,16 +27,12 @@ import com.synectiks.admission.repository.AdmissionEnquiryRepository;
 import com.synectiks.admission.service.util.CommonUtil;
 import com.synectiks.admission.service.util.DateFormatUtil;
 import com.synectiks.admission.utils.IUtils;
-import com.synectiks.admission.utils.SynectiksJPARepo;
 
 @Service
 @Transactional
 public class CmsAdmissionEnquiryService {
 	
 	private final static Logger logger = LoggerFactory.getLogger(CmsAdmissionEnquiryService.class);
-	
-	@PersistenceContext
-    private EntityManager entityManager;
 	
 	@Autowired
 	private CmsAdmissionApplicationService cmsAdmissionApplicationService;
@@ -52,7 +46,7 @@ public class CmsAdmissionEnquiryService {
 	@Autowired
 	AdmissionEnquiryRepository admissionEnquiryRepository;
 	
-    public List<CmsAdmissionEnquiryVo> getAdmissionEnquiryList(Long branchId, Long academicYearId, String enquiryStatus) throws ParseException, Exception {
+    public List<CmsAdmissionEnquiryVo> getAdmissionEnquiryList(Long branchId, Long academicYearId, String enquiryStatus) {
         logger.info("Start getting admission enquiry data");
     	AdmissionEnquiry admissionEnquiry = new AdmissionEnquiry();
         admissionEnquiry.setBranchId(branchId);
@@ -133,6 +127,8 @@ public class CmsAdmissionEnquiryService {
     	}
     	vo.setExitCode(0L);
     	vo.setExitDescription("Admission enquiry saved successfully");
+    	List<CmsAdmissionEnquiryVo> list = getAdmissionEnquiryList(input.getBranchId(), input.getAcademicYearId(), null);
+    	vo.setDataList(list);
     	logger.info("Admission enquiry added successfully");
     	return new AdmissionEnquiryPayload(vo);
     }
@@ -140,7 +136,7 @@ public class CmsAdmissionEnquiryService {
     public AdmissionEnquiryPayload updateAdmissionEnquiry(AdmissionEnquiryInput input) {
     	CmsAdmissionEnquiryVo vo = null;
     	Long studentId = null;
-    	Long admissionNo = CommonUtil.generateAdmissionNo(this.entityManager, input.getBranchId());
+    	Long admissionNo = this.cmsAdmissionApplicationService.generateAdmissionNo(input.getBranchId());
     	try {
     		
     		if(CmsConstants.TRANSACTION_SOURCE_ADMISSION_PAGE.equalsIgnoreCase(input.getTransactionSource())) {
@@ -149,10 +145,38 @@ public class CmsAdmissionEnquiryService {
     			logger.info("Enquiry converted to student profile successfully");
         	}
     		logger.info("Updating admission enquiry");
-//        	SynectiksJPARepo synectiksJPARepo = new SynectiksJPARepo(AdmissionEnquiry.class, this.entityManager);
-        	AdmissionEnquiry ae = CommonUtil.createCopyProperties(input, AdmissionEnquiry.class);
+    		Optional<AdmissionEnquiry> oae = admissionEnquiryRepository.findById(input.getId());
+    		AdmissionEnquiry ae = oae.get();
+    		
+        	ae.setStudentName(input.getStudentName());
+        	ae.setStudentLastName(input.getStudentLastName());
+        	ae.setComments(input.getComments());
+        	if(input.getStudentMiddleName() != null) {
+        		ae.setStudentMiddleName(input.getStudentMiddleName());
+        	}
+        	if(input.getCellPhoneNo() != null) {
+        		ae.setCellPhoneNo(input.getCellPhoneNo());
+        	}
+        	if(input.getLandLinePhoneNo() != null) {
+        		ae.setLandLinePhoneNo(input.getLandLinePhoneNo());
+        	}
+        	if(input.getEmailId() != null) {
+        		ae.setEmailId(input.getEmailId());
+        	}
         	if(input.getStrDateOfBirth() != null) {
         		ae.setDateOfBirth(DateFormatUtil.convertStringToLocalDate(input.getStrDateOfBirth(), CmsConstants.DATE_FORMAT_dd_MM_yyyy));
+        	}
+        	if(input.getGender() != null) {
+        		ae.setGender(input.getGender());
+        	}
+        	if(input.getHighestQualification() != null) {
+        		ae.setHighestQualification(input.getHighestQualification());
+        	}
+        	if(input.getModeOfEnquiry() != null) {
+        		ae.setModeOfEnquiry(input.getModeOfEnquiry());
+        	}
+        	if(input.getEnquiryStatus() != null) {
+        		ae.setEnquiryStatus(input.getEnquiryStatus());
         	}
         	ae.setUpdatedOn(LocalDate.now());
         	ae = admissionEnquiryRepository.save(ae);
@@ -187,6 +211,8 @@ public class CmsAdmissionEnquiryService {
         	}
         	vo.setExitCode(0L);
         	vo.setExitDescription("Admission enquiry updated successfully");
+        	List<CmsAdmissionEnquiryVo> list = getAdmissionEnquiryList(input.getBranchId(), input.getAcademicYearId(), null);
+        	vo.setDataList(list);
         	logger.info("Admission enquiry updated successfully");
     	}catch(Exception e) {
     		logger.error("Exception in grating enquiry to admission: ",e);
@@ -200,7 +226,7 @@ public class CmsAdmissionEnquiryService {
     public AdmissionEnquiryPayload grantAdmissionToStudent(AdmissionEnquiryInput input) {
     	CmsAdmissionEnquiryVo vo = new CmsAdmissionEnquiryVo();
     	Long studentId = null;
-    	Long admissionNo = CommonUtil.generateAdmissionNo(this.entityManager, input.getBranchId());
+    	Long admissionNo = this.cmsAdmissionApplicationService.generateAdmissionNo(input.getBranchId());
     	try {
     		if(CmsConstants.TRANSACTION_SOURCE_ADMISSION_PAGE.equalsIgnoreCase(input.getTransactionSource())) {
     			logger.info("Assigning admission number to student");
