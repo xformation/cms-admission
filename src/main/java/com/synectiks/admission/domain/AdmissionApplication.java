@@ -39,10 +39,10 @@ public class AdmissionApplication implements Serializable, IESEntity {
     @Column(name = "source_of_application")
     private String sourceOfApplication;
 
-    @Column(name = "student_id")
-    private Long studentId;
+    
 
-    @Column(name = "application_date")
+
+	@Column(name = "application_date")
     @JsonSerialize(using = LocalDateSerializer.class)
 	@JsonDeserialize(using = LocalDateDeserializer.class)
     private LocalDate applicationDate;
@@ -68,6 +68,9 @@ public class AdmissionApplication implements Serializable, IESEntity {
 
     @Column(name = "branch_id")
     private Long branchId;
+
+    @Column(name = "academic_year_id")
+    private Long academicYearId;
 
     @Column(name = "created_by")
     private String createdBy;
@@ -109,19 +112,6 @@ public class AdmissionApplication implements Serializable, IESEntity {
 
     public void setSourceOfApplication(String sourceOfApplication) {
         this.sourceOfApplication = sourceOfApplication;
-    }
-
-    public Long getStudentId() {
-        return studentId;
-    }
-
-    public AdmissionApplication studentId(Long studentId) {
-        this.studentId = studentId;
-        return this;
-    }
-
-    public void setStudentId(Long studentId) {
-        this.studentId = studentId;
     }
 
     public LocalDate getApplicationDate() {
@@ -215,6 +205,19 @@ public class AdmissionApplication implements Serializable, IESEntity {
         this.branchId = branchId;
     }
 
+    public Long getAcademicYearId() {
+        return academicYearId;
+    }
+
+    public AdmissionApplication academicYearId(Long academicYearId) {
+        this.academicYearId = academicYearId;
+        return this;
+    }
+
+    public void setAcademicYearId(Long academicYearId) {
+        this.academicYearId = academicYearId;
+    }
+
     public String getCreatedBy() {
         return createdBy;
     }
@@ -302,7 +305,6 @@ public class AdmissionApplication implements Serializable, IESEntity {
         return "AdmissionApplication{" +
             "id=" + getId() +
             ", sourceOfApplication='" + getSourceOfApplication() + "'" +
-            ", studentId=" + getStudentId() +
             ", applicationDate='" + getApplicationDate() + "'" +
             ", completionDate='" + getCompletionDate() + "'" +
             ", admissionNo=" + getAdmissionNo() +
@@ -310,6 +312,7 @@ public class AdmissionApplication implements Serializable, IESEntity {
             ", comments='" + getComments() + "'" +
             ", applicationStatus='" + getApplicationStatus() + "'" +
             ", branchId=" + getBranchId() +
+            ", academicYearId=" + getAcademicYearId() +
             ", createdBy='" + getCreatedBy() + "'" +
             ", createdOn='" + getCreatedOn() + "'" +
             ", updatedBy='" + getUpdatedBy() + "'" +

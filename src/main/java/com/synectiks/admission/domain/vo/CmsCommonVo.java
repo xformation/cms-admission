@@ -3,8 +3,11 @@ package com.synectiks.admission.domain.vo;
 import java.io.Serializable;
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 
 public class CmsCommonVo implements Serializable{
 	
@@ -15,12 +18,14 @@ public class CmsCommonVo implements Serializable{
 	
 	private String createdBy;
     
-	@JsonSerialize(using = ToStringSerializer.class)
+	@JsonSerialize(using = LocalDateSerializer.class)
+	@JsonDeserialize(using = LocalDateDeserializer.class)
 	private LocalDate createdOn;
     
 	private String updatedBy;
     
-    @JsonSerialize(using = ToStringSerializer.class)
+	@JsonSerialize(using = LocalDateSerializer.class)
+	@JsonDeserialize(using = LocalDateDeserializer.class)
     private LocalDate updatedOn;
     
     private String status;

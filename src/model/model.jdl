@@ -29,7 +29,6 @@ entity AdmissionEnquiry {
 
 entity AdmissionApplication{
     sourceOfApplication String
-    studentId Long
     applicationDate LocalDate
     completionDate LocalDate
     admissionNo Long
@@ -37,6 +36,7 @@ entity AdmissionApplication{
     comments String
     applicationStatus String
     branchId Long
+    academicYearId Long
     createdBy String
 	createdOn LocalDate
 	updatedBy String

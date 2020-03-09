@@ -121,9 +121,6 @@
 
     </changeSet>
 
-    <changeSet id="20191204181609-1-relations" author="jhipster">
-
-    </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->
 
     <!--
@@ -133,40 +130,6 @@
         - By default this data is applied when running with the JHipster 'dev' profile.
           This can be customized by adding or removing 'faker' in the 'spring.liquibase.contexts'
           Spring Boot configuration key.
-    -->
-    <changeSet id="20191204181609-1-data" author="jhipster" context="faker">
-        <loadData
-                  file="config/liquibase/data/admission_enquiry.csv"
-                  separator=";"
-                  tableName="admission_enquiry">
-            <column name="id" type="numeric"/>
-            <column name="student_name" type="string"/>
-            <column name="student_middle_name" type="string"/>
-            <column name="student_last_name" type="string"/>
-            <column name="cell_phone_no" type="string"/>
-            <column name="land_line_phone_no" type="string"/>
-            <column name="email_id" type="string"/>
-            <column name="date_of_birth" type="date"/>
-            <column name="gender" type="string"/>
-            <column name="highest_qualification" type="string"/>
-            <column name="mode_of_enquiry" type="string"/>
-            <column name="enquiry_date" type="date"/>
-            <column name="comments" type="string"/>
-            <column name="branch_id" type="numeric"/>
-            <column name="department_id" type="numeric"/>
-            <column name="course_id" type="numeric"/>
-            <column name="semester_id" type="numeric"/>
-            <column name="batch_id" type="numeric"/>
-            <column name="state_id" type="numeric"/>
-            <column name="city_id" type="numeric"/>
-            <column name="academic_year_id" type="numeric"/>
-            <column name="enquiry_status" type="string"/>
-            <column name="created_by" type="string"/>
-            <column name="created_on" type="date"/>
-            <column name="updated_by" type="string"/>
-            <column name="updated_on" type="date"/>
-            <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here, do not remove-->
-        </loadData>
-    </changeSet>
+    -->    
 
 </databaseChangeLog>

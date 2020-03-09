@@ -1,10 +1,13 @@
 package com.synectiks.admission.domain.vo;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import com.synectiks.admission.domain.AdmissionEnquiry;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 
 public class CmsAdmissionApplicationVo extends CmsCommonVo implements Serializable{
 
@@ -12,40 +15,35 @@ public class CmsAdmissionApplicationVo extends CmsCommonVo implements Serializab
 
     private Long id;
     private String sourceOfApplication;
-    private Long studentId;
     
-    @JsonSerialize(using = ToStringSerializer.class)
+    @JsonSerialize(using = LocalDateSerializer.class)
+	@JsonDeserialize(using = LocalDateDeserializer.class)
     private LocalDate applicationDate;
     
-    @JsonSerialize(using = ToStringSerializer.class)
+    @JsonSerialize(using = LocalDateSerializer.class)
+	@JsonDeserialize(using = LocalDateDeserializer.class)
     private LocalDate completionDate;
     
     private Long admissionNo;
     
-    @JsonSerialize(using = ToStringSerializer.class)
+    @JsonSerialize(using = LocalDateSerializer.class)
+	@JsonDeserialize(using = LocalDateDeserializer.class)
     private LocalDate admissionDate;
     
     private String comments;
     private String applicationStatus;
     private Long branchId;
-    private String createdBy;
+    private Long academicYearId;
     
-    @JsonSerialize(using = ToStringSerializer.class)
-    private LocalDate createdOn;
-    
-    private String updatedBy;
-    
-    @JsonSerialize(using = ToStringSerializer.class)
-    private LocalDate updatedOn;
-    
-    private AdmissionEnquiry admissionEnquiry;
+    private CmsAdmissionEnquiryVo cmsAdmissionEnquiryVo;
 
     private String strApplicationDate;
     private String strCompletionDate;
     private String strAdmissionDate;
-    private String strCreatedOn;
-    private String strUpdatedOn;
     private Long admissionEnquiryId;
+    private List<CmsAdmissionApplicationVo> dataList = new ArrayList<CmsAdmissionApplicationVo>();
+    private List<CmsAdmissionEnquiryVo> enquiryList = new ArrayList<CmsAdmissionEnquiryVo>();
+    
 	public Long getId() {
 		return id;
 	}
@@ -57,12 +55,6 @@ public class CmsAdmissionApplicationVo extends CmsCommonVo implements Serializab
 	}
 	public void setSourceOfApplication(String sourceOfApplication) {
 		this.sourceOfApplication = sourceOfApplication;
-	}
-	public Long getStudentId() {
-		return studentId;
-	}
-	public void setStudentId(Long studentId) {
-		this.studentId = studentId;
 	}
 	public LocalDate getApplicationDate() {
 		return applicationDate;
@@ -106,36 +98,7 @@ public class CmsAdmissionApplicationVo extends CmsCommonVo implements Serializab
 	public void setBranchId(Long branchId) {
 		this.branchId = branchId;
 	}
-	public String getCreatedBy() {
-		return createdBy;
-	}
-	public void setCreatedBy(String createdBy) {
-		this.createdBy = createdBy;
-	}
-	public LocalDate getCreatedOn() {
-		return createdOn;
-	}
-	public void setCreatedOn(LocalDate createdOn) {
-		this.createdOn = createdOn;
-	}
-	public String getUpdatedBy() {
-		return updatedBy;
-	}
-	public void setUpdatedBy(String updatedBy) {
-		this.updatedBy = updatedBy;
-	}
-	public LocalDate getUpdatedOn() {
-		return updatedOn;
-	}
-	public void setUpdatedOn(LocalDate updatedOn) {
-		this.updatedOn = updatedOn;
-	}
-	public AdmissionEnquiry getAdmissionEnquiry() {
-		return admissionEnquiry;
-	}
-	public void setAdmissionEnquiry(AdmissionEnquiry admissionEnquiry) {
-		this.admissionEnquiry = admissionEnquiry;
-	}
+	
 	public String getStrApplicationDate() {
 		return strApplicationDate;
 	}
@@ -154,23 +117,36 @@ public class CmsAdmissionApplicationVo extends CmsCommonVo implements Serializab
 	public void setStrAdmissionDate(String strAdmissionDate) {
 		this.strAdmissionDate = strAdmissionDate;
 	}
-	public String getStrCreatedOn() {
-		return strCreatedOn;
-	}
-	public void setStrCreatedOn(String strCreatedOn) {
-		this.strCreatedOn = strCreatedOn;
-	}
-	public String getStrUpdatedOn() {
-		return strUpdatedOn;
-	}
-	public void setStrUpdatedOn(String strUpdatedOn) {
-		this.strUpdatedOn = strUpdatedOn;
-	}
+	
 	public Long getAdmissionEnquiryId() {
 		return admissionEnquiryId;
 	}
 	public void setAdmissionEnquiryId(Long admissionEnquiryId) {
 		this.admissionEnquiryId = admissionEnquiryId;
+	}
+	public List<CmsAdmissionApplicationVo> getDataList() {
+		return dataList;
+	}
+	public void setDataList(List<CmsAdmissionApplicationVo> dataList) {
+		this.dataList = dataList;
+	}
+	public CmsAdmissionEnquiryVo getCmsAdmissionEnquiryVo() {
+		return cmsAdmissionEnquiryVo;
+	}
+	public void setCmsAdmissionEnquiryVo(CmsAdmissionEnquiryVo cmsAdmissionEnquiryVo) {
+		this.cmsAdmissionEnquiryVo = cmsAdmissionEnquiryVo;
+	}
+	public Long getAcademicYearId() {
+		return academicYearId;
+	}
+	public void setAcademicYearId(Long academicYearId) {
+		this.academicYearId = academicYearId;
+	}
+	public List<CmsAdmissionEnquiryVo> getEnquiryList() {
+		return enquiryList;
+	}
+	public void setEnquiryList(List<CmsAdmissionEnquiryVo> enquiryList) {
+		this.enquiryList = enquiryList;
 	}
 
 }

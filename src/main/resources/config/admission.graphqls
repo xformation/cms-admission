@@ -7,6 +7,61 @@ type Query {
 
 type Mutation {
 	saveAdmissionEnquiry(input: AdmissionEnquiryInput): AdmissionEnquiryPayload
+	saveAdmissionApplication(input: AdmissionApplicationInput): AdmissionApplicationPayload
+}
+
+type AdmissionApplicationPayload {
+	cmsAdmissionApplicationVo: CmsAdmissionApplicationVo
+}
+
+input  AdmissionApplicationInput{
+	id:  Long
+	sourceOfApplication:  String 
+	admissionNo: Long 
+	comments: String 
+	applicationStatus: String 
+	branchId: Long
+	academicYearId: Long
+	strApplicationDate: String 
+	strCompletionDate:  String 
+	strAdmissionDate:   String 
+	admissionEnquiryId: Long 
+	createdBy: String 
+	updatedBy: String 
+	status:         String 
+	strCreatedOn:   String 
+	strUpdatedOn:   String 
+	exitCode:		Long 
+	exitDescription: String 
+}
+
+type CmsAdmissionApplicationVo {
+	id:  Long
+	sourceOfApplication:  String 
+	applicationDate: Date 
+	completionDate: Date 
+	admissionNo: Long 
+	admissionDate: Date 
+	comments: String 
+	applicationStatus: String 
+	branchId: Long
+	academicYearId: Long 
+	cmsAdmissionEnquiryVo: CmsAdmissionEnquiryVo 
+	strApplicationDate: String 
+	strCompletionDate:  String 
+	strAdmissionDate:   String 
+	admissionEnquiryId: Long 
+	createdBy: String 
+	createdOn: Date 
+	updatedBy: String 
+	updatedOn: Date 
+	status:         String 
+	strCreatedOn:   String 
+	strUpdatedOn:   String 
+	exitCode:		Long 
+	exitDescription: String 
+	dataList: [CmsAdmissionApplicationVo] 
+	enquiryList: [CmsAdmissionEnquiryVo]
 }
 
 type AdmissionEnquiryPayload {

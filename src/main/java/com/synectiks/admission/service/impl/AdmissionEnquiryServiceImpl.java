@@ -1,27 +1,24 @@
 package com.synectiks.admission.service.impl;
 
-import com.synectiks.admission.service.AdmissionEnquiryService;
-import com.synectiks.admission.domain.AdmissionEnquiry;
-import com.synectiks.admission.repository.AdmissionEnquiryRepository;
-//import com.synectiks.admission.repository.search.AdmissionEnquirySearchRepository;
-import com.synectiks.admission.service.dto.AdmissionEnquiryDTO;
-import com.synectiks.admission.service.mapper.AdmissionEnquiryMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
-//import static org.elasticsearch.index.query.QueryBuilders.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.synectiks.admission.domain.AdmissionEnquiry;
+import com.synectiks.admission.repository.AdmissionEnquiryRepository;
+import com.synectiks.admission.repository.search.AdmissionEnquirySearchRepository;
+import com.synectiks.admission.service.AdmissionEnquiryService;
+import com.synectiks.admission.service.dto.AdmissionEnquiryDTO;
+import com.synectiks.admission.service.mapper.AdmissionEnquiryMapper;
 
 /**
- * Service Implementation for managing AdmissionEnquiry.
+ * Service Implementation for managing {@link AdmissionEnquiry}.
  */
 @Service
 @Transactional
@@ -33,19 +30,19 @@ public class AdmissionEnquiryServiceImpl implements AdmissionEnquiryService {
 
     private final AdmissionEnquiryMapper admissionEnquiryMapper;
 
-    //private final AdmissionEnquirySearchRepository admissionEnquirySearchRepository;
+    private final AdmissionEnquirySearchRepository admissionEnquirySearchRepository;
 
-    public AdmissionEnquiryServiceImpl(AdmissionEnquiryRepository admissionEnquiryRepository, AdmissionEnquiryMapper admissionEnquiryMapper/*, AdmissionEnquirySearchRepository admissionEnquirySearchRepository*/) {
+    public AdmissionEnquiryServiceImpl(AdmissionEnquiryRepository admissionEnquiryRepository, AdmissionEnquiryMapper admissionEnquiryMapper, AdmissionEnquirySearchRepository admissionEnquirySearchRepository) {
         this.admissionEnquiryRepository = admissionEnquiryRepository;
         this.admissionEnquiryMapper = admissionEnquiryMapper;
-        //this.admissionEnquirySearchRepository = admissionEnquirySearchRepository;
+        this.admissionEnquirySearchRepository = admissionEnquirySearchRepository;
     }
 
     /**
      * Save a admissionEnquiry.
      *
-     * @param admissionEnquiryDTO the entity to save
-     * @return the persisted entity
+     * @param admissionEnquiryDTO the entity to save.
+     * @return the persisted entity.
      */
     @Override
     public AdmissionEnquiryDTO save(AdmissionEnquiryDTO admissionEnquiryDTO) {
@@ -53,14 +50,14 @@ public class AdmissionEnquiryServiceImpl implements AdmissionEnquiryService {
         AdmissionEnquiry admissionEnquiry = admissionEnquiryMapper.toEntity(admissionEnquiryDTO);
         admissionEnquiry = admissionEnquiryRepository.save(admissionEnquiry);
         AdmissionEnquiryDTO result = admissionEnquiryMapper.toDto(admissionEnquiry);
-        //admissionEnquirySearchRepository.save(admissionEnquiry);
+        admissionEnquirySearchRepository.save(admissionEnquiry);
         return result;
     }
 
     /**
      * Get all the admissionEnquiries.
      *
-     * @return the list of entities
+     * @return the list of entities.
      */
     @Override
     @Transactional(readOnly = true)
@@ -75,8 +72,8 @@ public class AdmissionEnquiryServiceImpl implements AdmissionEnquiryService {
     /**
      * Get one admissionEnquiry by id.
      *
-     * @param id the id of the entity
-     * @return the entity
+     * @param id the id of the entity.
+     * @return the entity.
      */
     @Override
     @Transactional(readOnly = true)
@@ -89,30 +86,25 @@ public class AdmissionEnquiryServiceImpl implements AdmissionEnquiryService {
     /**
      * Delete the admissionEnquiry by id.
      *
-     * @param id the id of the entity
+     * @param id the id of the entity.
      */
     @Override
     public void delete(Long id) {
         log.debug("Request to delete AdmissionEnquiry : {}", id);
         admissionEnquiryRepository.deleteById(id);
-        //admissionEnquirySearchRepository.deleteById(id);
+        admissionEnquirySearchRepository.deleteById(id);
     }
 
     /**
      * Search for the admissionEnquiry corresponding to the query.
      *
-     * @param query the query of the search
-     * @return the list of entities
+     * @param query the query of the search.
+     * @return the list of entities.
      */
     @Override
     @Transactional(readOnly = true)
     public List<AdmissionEnquiryDTO> search(String query) {
         log.debug("Request to search AdmissionEnquiries for query {}", query);
-        /*return StreamSupport
-            .stream(admissionEnquirySearchRepository.search(queryStringQuery(query)).spliterator(), false)
-            .map(admissionEnquiryMapper::toDto)
-            .collect(Collectors.toList());*/
-    	//TODO: Fix it by fetching result from search api
-    	return null;
+        return null;
     }
 }

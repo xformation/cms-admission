@@ -12,8 +12,6 @@ public class AdmissionApplicationDTO implements Serializable {
 
     private String sourceOfApplication;
 
-    private Long studentId;
-
     private LocalDate applicationDate;
 
     private LocalDate completionDate;
@@ -27,6 +25,8 @@ public class AdmissionApplicationDTO implements Serializable {
     private String applicationStatus;
 
     private Long branchId;
+
+    private Long academicYearId;
 
     private String createdBy;
 
@@ -53,14 +53,6 @@ public class AdmissionApplicationDTO implements Serializable {
 
     public void setSourceOfApplication(String sourceOfApplication) {
         this.sourceOfApplication = sourceOfApplication;
-    }
-
-    public Long getStudentId() {
-        return studentId;
-    }
-
-    public void setStudentId(Long studentId) {
-        this.studentId = studentId;
     }
 
     public LocalDate getApplicationDate() {
@@ -117,6 +109,14 @@ public class AdmissionApplicationDTO implements Serializable {
 
     public void setBranchId(Long branchId) {
         this.branchId = branchId;
+    }
+
+    public Long getAcademicYearId() {
+        return academicYearId;
+    }
+
+    public void setAcademicYearId(Long academicYearId) {
+        this.academicYearId = academicYearId;
     }
 
     public String getCreatedBy() {
@@ -185,7 +185,6 @@ public class AdmissionApplicationDTO implements Serializable {
         return "AdmissionApplicationDTO{" +
             "id=" + getId() +
             ", sourceOfApplication='" + getSourceOfApplication() + "'" +
-            ", studentId=" + getStudentId() +
             ", applicationDate='" + getApplicationDate() + "'" +
             ", completionDate='" + getCompletionDate() + "'" +
             ", admissionNo=" + getAdmissionNo() +
@@ -193,6 +192,7 @@ public class AdmissionApplicationDTO implements Serializable {
             ", comments='" + getComments() + "'" +
             ", applicationStatus='" + getApplicationStatus() + "'" +
             ", branchId=" + getBranchId() +
+            ", academicYearId=" + getAcademicYearId() +
             ", createdBy='" + getCreatedBy() + "'" +
             ", createdOn='" + getCreatedOn() + "'" +
             ", updatedBy='" + getUpdatedBy() + "'" +

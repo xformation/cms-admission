@@ -1,7 +1,4 @@
 package com.synectiks.admission.domain;
-
-
-//import org.springframework.data.elasticsearch.annotations.Document;
 import java.io.Serializable;
 import java.time.LocalDate;
 
@@ -22,7 +19,6 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.synectiks.admission.utils.IESEntity;
-
 
 /**
  * A AdmissionEnquiry.

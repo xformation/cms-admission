@@ -203,8 +203,7 @@ public class CmsAdmissionEnquiryService {
         		apInput.setApplicationStatus(CmsConstants.STATUS_ADMISSION_GRANTED);
         		apInput.setSourceOfApplication(CmsConstants.SOURCE_ADMISSION_ENQUIRY);
         		apInput.setAdmissionEnquiryId(ae.getId());
-        		apInput.setAdmissionEnquiry(ae);
-        		apInput.setStudentId(studentId);
+//        		apInput.setStudentId(studentId);
         		apInput.setBranchId(ae.getBranchId());
         		cmsAdmissionApplicationService.addAdmissionApplication(apInput, admissionNo);
         		logger.info("Admission number generated successfully. Now creating student profile from admission enquiry");
@@ -239,7 +238,7 @@ public class CmsAdmissionEnquiryService {
         		AdmissionApplicationInput apInput = new AdmissionApplicationInput();
         		apInput.setApplicationStatus(CmsConstants.STATUS_ADMISSION_GRANTED);
         		apInput.setSourceOfApplication(CmsConstants.SOURCE_STUDENT);
-        		apInput.setStudentId(input.getId());
+//        		apInput.setStudentId(input.getId());
         		apInput.setAdmissionEnquiryId(input.getId()); // will be used as a base for new admission number
         		apInput.setBranchId(input.getBranchId());
         		cmsAdmissionApplicationService.addAdmissionApplication(apInput, admissionNo);
