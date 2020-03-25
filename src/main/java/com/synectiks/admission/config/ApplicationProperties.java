@@ -19,6 +19,8 @@ public class ApplicationProperties {
 	private String secSrvUrl;
 	private String prefSrvUrl;
 	private String cmsBackEndUrl;
+	private String kafkaUrl;
+	private String kafkaIndexEvenFireUrl;
 	
 	public String getInfluxDbUrl() {
 		return influxDbUrl;
@@ -67,6 +69,18 @@ public class ApplicationProperties {
 	}
 	public void setCmsBackEndUrl(String cmsBackEndUrl) {
 		this.cmsBackEndUrl = cmsBackEndUrl;
+	}
+	public String getKafkaUrl() {
+		return kafkaUrl;
+	}
+	public void setKafkaUrl(String kafkaUrl) {
+		this.kafkaUrl = kafkaUrl;
+	}
+	public String getKafkaIndexEvenFireUrl() {
+		return kafkaIndexEvenFireUrl;
+	}
+	public void setKafkaIndexEvenFireUrl(String kafkaIndexEvenFireUrl) {
+		this.kafkaIndexEvenFireUrl = kafkaIndexEvenFireUrl;
 	}
 	
 	
