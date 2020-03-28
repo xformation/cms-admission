@@ -40,6 +40,8 @@ public class CacheConfiguration {
             cm.createCache(com.synectiks.admission.domain.User.class.getName() + ".authorities", jcacheConfiguration);
             cm.createCache(com.synectiks.admission.domain.AdmissionApplication.class.getName(), jcacheConfiguration);
             cm.createCache(com.synectiks.admission.domain.AdmissionEnquiry.class.getName(), jcacheConfiguration);
+            cm.createCache(com.synectiks.admission.domain.TempStudent.class.getName(), jcacheConfiguration);
+            
             // jhipster-needle-ehcache-add-entry
         };
     }

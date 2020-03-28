@@ -9,5 +9,6 @@
 	<include file="config/liquibase/changelog/20191204181609_added_entity_AdmissionEnquiry.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20191204181610_added_entity_AdmissionApplication.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20191204181610_added_entity_constraints_AdmissionApplication.xml" relativeToChangelogFile="false"/>
-    
+    <include file="config/liquibase/changelog/20200328081001_added_entity_TempStudent.xml" relativeToChangelogFile="false"/>
+	
 </databaseChangeLog>

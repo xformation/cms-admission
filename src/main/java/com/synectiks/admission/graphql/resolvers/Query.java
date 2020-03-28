@@ -12,8 +12,10 @@ import org.springframework.web.client.RestTemplate;
 
 import com.coxautodev.graphql.tools.GraphQLQueryResolver;
 import com.synectiks.admission.business.service.CmsAdmissionEnquiryService;
+import com.synectiks.admission.business.service.CmsTempStudentService;
 import com.synectiks.admission.config.ApplicationProperties;
 import com.synectiks.admission.domain.vo.CmsAdmissionEnquiryVo;
+import com.synectiks.admission.domain.vo.CmsTempStudentVo;
 import com.synectiks.admission.repository.AdmissionApplicationRepository;
 import com.synectiks.admission.repository.AdmissionEnquiryRepository;
 
@@ -37,6 +39,9 @@ public class Query implements GraphQLQueryResolver {
 	
 	@Autowired
 	private RestTemplate restTemplate;
+	
+	@Autowired
+    private CmsTempStudentService cmsTempStudentService;
 	
     public Query(AdmissionEnquiryRepository admissionEnquiryRepository, 
     		AdmissionApplicationRepository admissionApplicationRepository 
@@ -63,4 +68,10 @@ public class Query implements GraphQLQueryResolver {
 		}
     	return ls;
     }
+    
+    public CmsTempStudentVo getTempStudent(Long branchId, Long academicYearId, String stateMachineId) throws Exception {
+    	logger.debug("Query - getTempStudent :- Branch Id : "+branchId+", academicYearId : "+academicYearId+", stateMachineId : "+stateMachineId);
+    	return this.cmsTempStudentService.getTempStudent(branchId, academicYearId, stateMachineId);
+    }
+    
 }
