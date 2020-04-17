@@ -25,7 +25,7 @@ public interface CmsConstants {
 	String INFLUXDB_LOG_LEVEL_FULL = "FULL";
 	String INFLUXDB_LOG_LEVEL_HEADERS = "HEADERS";
 	String INFLUXDB_LOG_LEVEL_NONE = "NONE";
-	
+	String ZONE_ID = "Asia/Kolkata";
 	public static String STATUS_ACTIVE = "ACTIVE";
 	public static String STATUS_DEACTIVE = "DEACTIVE";
 	public static String STATUS_DRAFT = "DRAFT";

@@ -88,9 +88,9 @@ public class CmsAdmissionEnquiryService {
     	if(input.getId() == null) {
     		return addAdmissionEnquiry(input);
     	}
-    	if("STUDENT_PROFILE".equalsIgnoreCase(input.getSourceOfApplication())) {
-    		return grantAdmissionToStudent(input);
-    	}
+//    	if("STUDENT_PROFILE".equalsIgnoreCase(input.getSourceOfApplication())) {
+//    		return grantAdmissionToStudent(input);
+//    	}
     	return updateAdmissionEnquiry(input);
     }
 

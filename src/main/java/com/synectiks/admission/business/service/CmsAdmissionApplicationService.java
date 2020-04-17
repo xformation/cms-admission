@@ -2,6 +2,7 @@ package com.synectiks.admission.business.service;
 
 
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -49,14 +50,14 @@ public class CmsAdmissionApplicationService {
     	ae.setApplicationStatus(CmsConstants.STATUS_ADMISSION_GRANTED);
     	
     	if(CmsConstants.STATUS_ADMISSION_GRANTED.equalsIgnoreCase(input.getApplicationStatus())) {
-    		ae.setApplicationDate(LocalDate.now());
-    		ae.setCompletionDate(LocalDate.now());
-    		ae.setAdmissionDate(LocalDate.now());
+    		ae.setApplicationDate(LocalDate.now(ZoneId.of(CmsConstants.ZONE_ID)));
+    		ae.setCompletionDate(LocalDate.now(ZoneId.of(CmsConstants.ZONE_ID)));
+    		ae.setAdmissionDate(LocalDate.now(ZoneId.of(CmsConstants.ZONE_ID)));
     		ae.setComments("Admission granted based on an enquiry");
     		ae.setAdmissionNo(admissionNo);
     	}
     	
-    	ae.setCreatedOn(LocalDate.now());
+    	ae.setCreatedOn(LocalDate.now(ZoneId.of(CmsConstants.ZONE_ID)));
     	
     	ae = admissionApplicationRepository.save(ae);
     	
@@ -110,6 +111,18 @@ public class CmsAdmissionApplicationService {
     	List<CmsAdmissionApplicationVo> ls = changeAdmissionApplicationToCmsAdmissionApplicationList(list);
     	Collections.sort(ls, (o1, o2) -> o2.getId().compareTo(o1.getId()));
     	return ls;
+    }
+	
+	public List<AdmissionApplication> getAdmissionApplicationList(Long branchId, Long academicYearId){
+		AdmissionApplication aa = new AdmissionApplication();
+		aa.setBranchId(branchId);
+		aa.setAcademicYearId(academicYearId);
+		
+    	List<AdmissionApplication> list = this.admissionApplicationRepository.findAll(Example.of(aa));
+    	if(list.size() > 0) {
+    		Collections.sort(list, (o1, o2) -> o2.getId().compareTo(o1.getId()));
+    	}
+    	return list;
     }
 	
 	private List<CmsAdmissionApplicationVo> changeAdmissionApplicationToCmsAdmissionApplicationList(List<AdmissionApplication> list){
@@ -170,14 +183,14 @@ public class CmsAdmissionApplicationService {
     		if(input.getId() == null) {
     			logger.debug("Adding new admission application");
     			admissionApplication = CommonUtil.createCopyProperties(input, AdmissionApplication.class);
-    			admissionApplication.setCreatedOn(LocalDate.now());
+    			admissionApplication.setCreatedOn(LocalDate.now(ZoneId.of(CmsConstants.ZONE_ID)));
 //    			admissionApplication.setComments(input.getComments());
-    			admissionApplication.applicationDate(LocalDate.now());
+    			admissionApplication.applicationDate(LocalDate.now(ZoneId.of(CmsConstants.ZONE_ID)));
     			
     		}else {
     			logger.debug("Updating existing admission application");
     			admissionApplication = this.admissionApplicationRepository.findById(input.getId()).get();
-    			admissionApplication.setUpdatedOn(LocalDate.now());
+    			admissionApplication.setUpdatedOn(LocalDate.now(ZoneId.of(CmsConstants.ZONE_ID)));
 //    			if(input.getComments() != null) {
 //    				admissionApplication.setComments(input.getComments());
 //    			}
@@ -185,8 +198,8 @@ public class CmsAdmissionApplicationService {
     		if(CmsConstants.STATUS_ACTIVE.equalsIgnoreCase(input.getApplicationStatus())){
     			admissionApplication.setAdmissionNo(this.generateAdmissionNo(input.getBranchId()));
     		}
-    		admissionApplication.completionDate(LocalDate.now());
-    		admissionApplication.admissionDate(LocalDate.now());
+    		admissionApplication.completionDate(LocalDate.now(ZoneId.of(CmsConstants.ZONE_ID)));
+    		admissionApplication.admissionDate(LocalDate.now(ZoneId.of(CmsConstants.ZONE_ID)));
     		Optional<AdmissionEnquiry> oe = this.admissionEnquiryRepository.findById(input.getAdmissionEnquiryId());
     		if(oe.isPresent()) {
     			AdmissionEnquiry ae = oe.get();

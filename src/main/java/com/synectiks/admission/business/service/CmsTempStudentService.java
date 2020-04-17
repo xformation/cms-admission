@@ -58,6 +58,34 @@ public class CmsTempStudentService {
         return null;
     }
 
+    public List<CmsTempStudentVo> getTempStudentList(Long branchId, Long academicYearId, String stateMachineId) {
+        logger.info("Start getting temporary student data list");
+        TempStudent tempStudent = new TempStudent();
+        tempStudent.setBranchId(branchId);
+        tempStudent.setAcademicYearId(academicYearId);
+        if(!IUtils.isNullOrEmpty(stateMachineId)) {
+        	tempStudent.setStateMachineId(stateMachineId);
+        }
+
+        Example<TempStudent> example = Example.of(tempStudent);
+        List<TempStudent> list = tempStudentRepository.findAll(example);
+        List<CmsTempStudentVo> ls = new ArrayList<>();
+        for(TempStudent ots : list) {
+        	logger.debug("TempStudent data : "+ots);
+            CmsTempStudentVo vo = CommonUtil.createCopyProperties(ots, CmsTempStudentVo.class);
+            if(ots.getDateOfBirth() != null) {
+            	vo.setStrDateOfBirth(DateFormatUtil.changeLocalDateFormat(ots.getDateOfBirth(), CmsConstants.DATE_FORMAT_dd_MM_yyyy));
+            }
+
+            if(ots.getDisabilityCertificateIssueDate() != null) {
+            	vo.setStrDisabilityCertificateIssueDate(DateFormatUtil.changeLocalDateFormat(ots.getDisabilityCertificateIssueDate(), CmsConstants.DATE_FORMAT_dd_MM_yyyy));
+            }
+            ls.add(vo);
+        }
+        logger.info("End of getting TempStudent data list");
+        return ls;
+    }
+    
     public TempStudentPayload saveTempStudent(TempStudentInput input) {
     	CmsTempStudentVo tsvo = getTempStudent(input.getBranchId(), input.getAcademicYearId(), input.getStateMachineId());
     	if(tsvo == null) {
@@ -432,9 +460,10 @@ public class CmsTempStudentService {
            if (input.getOtherMedicalDetails() != null) {
         	   tempStudent.setOtherMedicalDetails(input.getOtherMedicalDetails());
            }
-           if (input.getStatus() != null) {
-        	   tempStudent.setStatus(input.getStatus());
-           }
+//           if (input.getStatus() != null) {
+//        	   tempStudent.setStatus(input.getStatus());
+//           }
+           tempStudent.setStatus(CmsConstants.STATUS_INPROCESS);
            if (input.getComments() != null) {
         	   tempStudent.setComments(input.getComments());
            }
